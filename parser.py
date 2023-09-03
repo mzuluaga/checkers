@@ -1,3 +1,5 @@
+# Sample colab at https://colab.research.google.com/drive/1FJ2rwYxLjdzZyJRGS4CwQPacruhvl5t2#scrollTo=VjV3eRXCDMmo
+
 
 def parse_game(game):
   parts = game.split('"]')
@@ -31,7 +33,6 @@ def parse_games(games_str):
 
 with open('OCA_2.0.pdn', 'r') as text_file:
   games_str = text_file.read()
-
 
 results, moves = parse_games(games_str)
 print('Total number of games:', len(results), len(moves))
