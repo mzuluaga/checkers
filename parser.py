@@ -25,13 +25,18 @@ def parse_games(games_str):
   return results, moves
 
 
+#
+# Main
+#
+
 with open('OCA_2.0.pdn', 'r') as text_file:
   games_str = text_file.read()
 
-#print(games_str)
 
 results, moves = parse_games(games_str)
-print(results[:3])
-print(moves[0][:10])
-print(moves[1][:10])
-print(moves[2][:10])
+print('Total number of games:', len(results), len(moves))
+assert len(results) == len(moves)
+print(results[-3])
+print(moves[-1][:10])
+print(moves[-2][:10])
+print(moves[-3][:10])
