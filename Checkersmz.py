@@ -45,12 +45,19 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:    #Falls man seine Maus klickt wird hier alles definiert zur Spielzugausführung
                 pos = pygame.mouse.get_pos()
-                row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem Feld klicken, dann wird es uns diesen Code ausführen und wissen welche Spielfigur, wir gedrückt haben
+
+                # game.select(row, col)
+
                 if game.turn == RED:
-                    game.select(row, col)
-                elif game.turn == WHITE:
-                    minimax_instance.get_all_valid_moves()
-                    minimax_instance.ai_move()
+                  row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem Feld klicken, dann wird es uns diesen Code ausführen und wissen welche Spielfigur, wir gedrückt haben
+                  print(f'Selected: (row, col) = ({row}, {col})')
+                  game.select(row, col)
+                else:
+                  #     minimax_instance.get_all_valid_moves()
+                  #     minimax_instance.ai_move()
+                  row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem
+                  print(f'Selected: (row, col) = ({row}, {col})')
+                  game.select(row, col)
 
         game.update()
 
