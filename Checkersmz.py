@@ -1,5 +1,7 @@
 #Checkersprogramm, dass mit einem Minimax-algorithmus programmiert ist
 
+import time
+
 import numpy as np
 import pandas as pd
 import random
@@ -7,7 +9,7 @@ import pygame
 from checkerboard.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkerboard.board import Board
 from checkerboard.game import Game
-from checkerboard.KI import minimax
+from checkerboard.KI import Minimax
 
 import parser
 
@@ -34,7 +36,7 @@ def main():
     run = True
     clock = pygame.time.Clock()             # Das ermöglicht, dass die Zeit für einen Spielzug vom Computer reguliert ist
     game = Game(WIN)
-    minimax_instance = minimax(WIN)
+    minimax = Minimax()
 
     while run:
         clock.tick(FPS)
@@ -51,12 +53,13 @@ def main():
                 if game.turn == RED:
                   row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem Feld klicken, dann wird es uns diesen Code ausführen und wissen welche Spielfigur, wir gedrückt haben
                   print(f'Selected: (row, col) = ({row}, {col})')
+                  print(f'Game piece = {game.board.get_piece(row, col)}')
                   game.select(row, col)
                 else:
-                  #     minimax_instance.get_all_valid_moves()
-                  #     minimax_instance.ai_move()
-                  row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem
-                  print(f'Selected: (row, col) = ({row}, {col})')
+                  (pr, pc), (row, col) = minimax.move(game.board, WHITE)
+                  print(f'Minmax Selected: (pr, pc, row, col) = ({pr}, {pc}, {row}, {col})')
+                  game.select(pr, pc)
+                  time.sleep(1.0)
                   game.select(row, col)
 
         game.update()

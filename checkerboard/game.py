@@ -3,14 +3,12 @@
 import pygame
 from .constants import RED, WHITE, BLUE, SQUARE_SIZE
 from .board import Board
-from .KI import minimax
 
 class Game:
 
     def __init__(self, win):
         self._init()
         self.win = win
-        self.minimax = minimax(win)
 
     def update(self):
         self.board.draw(self.win)
@@ -68,5 +66,3 @@ class Game:
             self.turn = WHITE
         else:
             self.turn = RED
-
-

@@ -5,16 +5,15 @@ import random
 from .constants import ROWS, COLS, RED, WHITE
 from .board import Board
 
-class minimax:
+class Minimax:
 
-    def __init__(self, win):
-        self.board = Board()
-        self.turn = RED
+    def __init__(self):
+        self.board = None
+        self.turn = None
         self.selected = None
         self.valid_moves = {}
         self.all_valid_moves = []
         self.chosen_move = []
-        self.win = win
 
     def get_random_move(self, move_list):
         n = random.randint(0, len(move_list)-1)
@@ -39,7 +38,7 @@ class minimax:
         print('Chosen piece:', self.chosen_move)
         print('Valid Moves:', self.all_valid_moves)
 
-    def choose_piece(self):
+    def choose_random_piece(self):
         # Extract the key(s) from the dictionary
         self.chosen_move = list(self.chosen_move.keys())
 
@@ -49,26 +48,10 @@ class minimax:
         r = random.randint(0, len(self.chosen_move)-1)
         row, col = self.chosen_move[r]
         print(f'Chosen: (row, col) = ({row}, {col})')
-        return row, col, r
+        return row, col
 
-    def ai_move(self):
-        row, col, r = self.choose_piece()
-        if r == 0:
-            piece = self.board.get_piece(row-1, col+1)
-        else:
-            piece = self.board.get_piece(row-1, col-1)
-        self.selected = piece
-        if self.selected and (row, col) in self.valid_moves:
-            self.board.move(self.selected, row, col)
-            skipped = self.valid_moves[(row, col)]
-            if skipped:
-                self.board.remove(skipped)
-
-    def update_ai(self):
-        self.board.draw(self.win)
-        pygame.display.update()
-
-    def change_turn(self):
-        self.valid_moves = {}
-        self.turn = WHITE if self.turn == RED else RED
-        print('new turn:', self.turn)
+    def move(self, board, turn):
+        self.board = board
+        self.turn = turn
+        # implement
+        return (2, 3), (3, 2)
