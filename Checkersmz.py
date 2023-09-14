@@ -11,10 +11,13 @@ from checkerboard.KI import minimax
 
 import parser
 
+results, moves = parser.run()
+
+
 # Flussdiagramm zu Minimax machen!
 # Checkerboard
 
-FPS = 60
+FPS = 30
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))  # Macht ein Window, wo wir das Checkerbrett hineinversetzen können
 pygame.display.set_caption('Checkers')

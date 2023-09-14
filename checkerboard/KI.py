@@ -36,8 +36,8 @@ class minimax:
                             amount_piece_moves += 1
         self.get_random_move(self.all_valid_moves)
         print('There are', amount_piece_moves, 'pieces that can move')
-        print(self.chosen_move)
-        print(self.all_valid_moves)
+        print('Chosen piece:', self.chosen_move)
+        print('Valid Moves:', self.all_valid_moves)
 
     def choose_piece(self):
         # Extract the key(s) from the dictionary
@@ -48,7 +48,7 @@ class minimax:
             print(key)
         r = random.randint(0, len(self.chosen_move)-1)
         row, col = self.chosen_move[r]
-        print(row, col)
+        print(f'Chosen: (row, col) = ({row}, {col})')
         return row, col, r
 
     def ai_move(self):
@@ -70,7 +70,5 @@ class minimax:
 
     def change_turn(self):
         self.valid_moves = {}
-        if self.turn == RED:
-            self.turn = WHITE
-        else:
-            self.turn = RED
+        self.turn = WHITE if self.turn == RED else RED
+        print('new turn:', self.turn)

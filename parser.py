@@ -30,9 +30,11 @@ def parse_games(games_str):
 # Datensortierung
 #
 
-with open('Data/OCA_2.0.pdn', 'r') as text_file:        # Daten werden als Textfile geöffnet
+def run():
+  with open('Data/OCA_2.0.pdn', 'r') as text_file:        # Daten werden als Textfile geöffnet
     games_str = text_file.read()
 
-results, moves = parse_games(games_str)
-print('Total number of games:', len(results), len(moves))
-assert len(results) == len(moves)
+    results, moves = parse_games(games_str)
+    print('Total number of games:', len(results), len(moves))
+    assert len(results) == len(moves)
+    return results, moves
