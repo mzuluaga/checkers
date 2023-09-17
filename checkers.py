@@ -40,7 +40,6 @@ def main():
 
     while run:
         clock.tick(FPS)
-
         for event in pygame.event.get():    #Diese For-Schleife wird gemacht um auszuwählen, ob man aufhören will zu spielen oder etwas anderes machen will
             if event.type == pygame.QUIT:
                 run = False                 #Falls man den Quit button drückt wird die ganze while schleife gestoppt und das Spiel endet
@@ -59,13 +58,12 @@ def main():
                   (pr, pc), (row, col) = minimax.move(game.board, WHITE)
                   print(f'Minmax Selected: (pr, pc, row, col) = ({pr}, {pc}, {row}, {col})')
                   game.select(pr, pc)
-                  time.sleep(1.0)
                   game.select(row, col)
 
         game.update()
 
     pygame.quit()
-    game.winner()
+    print(game.winner())
 
 
 main()

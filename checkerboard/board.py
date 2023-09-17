@@ -71,14 +71,11 @@ class Board:
 
     def winner(self):
         if self.red_left <= 0:
-            white = print('Weiss gewinnt!')
-            return white
+            return 'Weiss gewinnt!'
         elif self.white_left <= 0:
-            red = print('Rot gewinnt!')
-            return red
+            return 'Rot gewinnt!'
         else:
-            winner = print('Es ist Unentschieden!')
-            return winner
+            return 'Es ist Unentschieden!'
 
     def get_valid_moves(self, piece):
         moves = {}
@@ -160,4 +157,3 @@ class Board:
             right += 1
 
         return moves
-

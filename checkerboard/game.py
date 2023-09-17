@@ -7,7 +7,7 @@ from .board import Board
 class Game:
 
     def __init__(self, win):
-        self._init()
+        self.reset()
         self.win = win
 
     def update(self):
@@ -15,17 +15,14 @@ class Game:
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
-    def _init(self):
-        self.selected = None
-        self.board = Board()
-        self.turn = RED
-        self.valid_moves = {}
-
     def winner(self):
         return self.board.winner()
 
     def reset(self):
-        self._init()
+        self.selected = None
+        self.board = Board()
+        self.turn = RED
+        self.valid_moves = {}
 
     def select(self, row, col):
         if self.selected:
