@@ -9,6 +9,7 @@ class Board:
         self.red_left = self.white_left = 12
         self.red_kings = self.white_kings = 0
         self.create_board()
+        print('Board:', self.board)
 
     def draw_squares(self, win):
         win.fill(BLACK)

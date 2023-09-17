@@ -9,7 +9,7 @@ import pygame
 from checkerboard.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkerboard.board import Board
 from checkerboard.game import Game
-from checkerboard.KI import Minimax
+from minimax import Minimax
 
 import parser
 
@@ -55,7 +55,7 @@ def main():
                   print(f'Game piece = {game.board.get_piece(row, col)}')
                   game.select(row, col)
                 else:
-                  (pr, pc), (row, col) = minimax.move(game.board, WHITE)
+                  (pr, pc), (row, col) = minimax.move(game.board, game.turn)
                   print(f'Minmax Selected: (pr, pc, row, col) = ({pr}, {pc}, {row}, {col})')
                   game.select(pr, pc)
                   game.select(row, col)
