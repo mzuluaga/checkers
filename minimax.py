@@ -27,18 +27,8 @@ class Minimax:
       print('There are', amount_piece_moves, 'pieces that can move')
       return all_valid_moves
 
-    # def choose_random_piece(self, chose_move):
-    #   moves = list(chosen_move.keys())
-    #   print(moves)
-    #   row, col = moves[0]
-    #   print(f'Chosen: (row, col) = ({row}, {col})')
-    #   return row, col
-
     def move(self, board, turn):
       valid_moves = self.get_all_valid_moves(board, turn)
       print('Valid Moves:', valid_moves)
-      return valid_moves[0]
-      # move = self.get_random_move(valid_moves)
-      # print('Random Move:', move)
-      # implement
-      return (2, 3), (3, 2)
+      random_move = valid_moves[0]
+      return random_move
