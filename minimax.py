@@ -30,5 +30,4 @@ class Minimax:
     def move(self, board, turn):
       valid_moves = self.get_all_valid_moves(board, turn)
       print('Valid Moves:', valid_moves)
-      random_move = valid_moves[0]
-      return random_move
+      return random.choice(valid_moves)

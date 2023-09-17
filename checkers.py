@@ -50,9 +50,13 @@ def main():
                 # game.select(row, col)
 
                 if game.turn == RED:
-                  row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem Feld klicken, dann wird es uns diesen Code ausführen und wissen welche Spielfigur, wir gedrückt haben
-                  print(f'Selected: (row, col) = ({row}, {col})')
-                  print(f'Game piece = {game.board.get_piece(row, col)}')
+                  # row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem Feld klicken, dann wird es uns diesen Code ausführen und wissen welche Spielfigur, wir gedrückt haben
+                  # print(f'Selected: (row, col) = ({row}, {col})')
+                  # print(f'Game piece = {game.board.get_piece(row, col)}')
+                  # game.select(row, col)
+                  (pr, pc), (row, col) = minimax.move(game.board, game.turn)
+                  print(f'Minmax Selected: (pr, pc, row, col) = ({pr}, {pc}, {row}, {col})')
+                  game.select(pr, pc)
                   game.select(row, col)
                 else:
                   (pr, pc), (row, col) = minimax.move(game.board, game.turn)
