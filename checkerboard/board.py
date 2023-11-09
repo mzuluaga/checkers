@@ -6,8 +6,10 @@ from .piece import Piece
 class Board:
     def __init__(self):
         self.board = []                             #Diese 2d-Liste enthält später alle Spielfiguren und ihre positionen
-        self.red_left = self.white_left = 12
-        self.red_kings = self.white_kings = 0
+        self.red_left = 12
+        self.white_left = 12
+        self.red_kings = 0
+        self.white_kings = 0
         self.create_board()
         print('Board:', self.board)
 
