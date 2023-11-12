@@ -12,6 +12,10 @@ W=2
 RK=3
 WK=4
 
+#
+# Board functions
+#
+
 def init_board() -> np.array:
   board = np.zeros((8,8), np.int8)
   board[5] = [0, R, 0, R, 0, R, 0, R]
@@ -24,13 +28,15 @@ def init_board() -> np.array:
 
 
 def plot_board(board: np.array):
+  plt.plot()
   plt.imshow(board, origin='lower')
+  plt.show()
 
 def print_board(board: np.array):
   print('Board:')
   print('', f'{board[::-1]}'[1:-1])
 
-def _extract_board(game):
+def extract_board(game):
   board = np.zeros((8,8), np.int8)
   for game_row in game.board.board:
     for piece in game_row:
@@ -42,6 +48,24 @@ def _extract_board(game):
         p = R if piece.color == RED else W
       board[piece.row, piece.col] = p
   return board
+
+
+def move(board, from_coord, to_coord):
+  r, c = from_coord
+  piece = board[r, c]
+  board[r, c] = 0
+  r, c = to_coord
+  board[r, c] = piece
+  return board
+
+  # if row == ROWS - 1 or row == 0:
+  #   piece.make_king()
+  #   if piece.color == WHITE:
+  #     self.white_kings += 1
+  #   else:
+  #     self.red_kings += 1
+
+
 
 
 def _get_all_valid_moves(board, turn):
