@@ -18,12 +18,12 @@ WK=4
 
 def init_board() -> np.array:
   board = np.zeros((8,8), np.int8)
-  board[5] = [0, R, 0, R, 0, R, 0, R]
-  board[6] = [R, 0, R, 0, R, 0, R, 0]
-  board[7] = [0, R, 0, R, 0, R, 0, R]
   board[0] = [W, 0, W, 0, W, 0, W, 0]
   board[1] = [0, W, 0, W, 0, W, 0, W]
   board[2] = [W, 0, W, 0, W, 0, W, 0]
+  board[5] = [0, R, 0, R, 0, R, 0, R]
+  board[6] = [R, 0, R, 0, R, 0, R, 0]
+  board[7] = [0, R, 0, R, 0, R, 0, R]
   return board
 
 
@@ -32,9 +32,11 @@ def plot_board(board: np.array):
   plt.imshow(board, origin='lower')
   plt.show()
 
+
 def print_board(board: np.array):
   print('Board:')
   print('', f'{board[::-1]}'[1:-1])
+
 
 def extract_board(game):
   board = np.zeros((8,8), np.int8)
@@ -51,21 +53,18 @@ def extract_board(game):
 
 
 def move(board, from_coord, to_coord):
+  # this doesn't check if the move is valid!
   r, c = from_coord
   piece = board[r, c]
   board[r, c] = 0
   r, c = to_coord
+
+  if piece == W and r == 7:
+    piece = WK
+  elif piece == R and r == 0:
+    piece = RK
   board[r, c] = piece
   return board
-
-  # if row == ROWS - 1 or row == 0:
-  #   piece.make_king()
-  #   if piece.color == WHITE:
-  #     self.white_kings += 1
-  #   else:
-  #     self.red_kings += 1
-
-
 
 
 def _get_all_valid_moves(board, turn):
