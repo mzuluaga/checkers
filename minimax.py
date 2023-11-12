@@ -2,29 +2,45 @@
 
 import copy
 import random
-from checkerboard.constants import ROWS, COLS, RED, WHITE
+from checkerboard.constants import RED, WHITE
 import numpy as np
+import matplotlib.pyplot as plt
 
-from enum import Enum
+# RED/WHITE/RED KING/WHITE KING
+R=1
+W=2
+RK=3
+WK=4
 
-class Cell(Enum):
-  EMPTY = 0
-  RED = 1
-  WHITE = 2
+def init_board() -> np.array:
+  board = np.zeros((8,8), np.int8)
+  board[5] = [0, R, 0, R, 0, R, 0, R]
+  board[6] = [R, 0, R, 0, R, 0, R, 0]
+  board[7] = [0, R, 0, R, 0, R, 0, R]
+  board[0] = [W, 0, W, 0, W, 0, W, 0]
+  board[1] = [0, W, 0, W, 0, W, 0, W]
+  board[2] = [W, 0, W, 0, W, 0, W, 0]
+  return board
 
+
+def plot_board(board: np.array):
+  plt.imshow(board, origin='lower')
+
+def print_board(board: np.array):
+  print('Board:')
+  print('', f'{board[::-1]}'[1:-1])
 
 def _extract_board(game):
-  board  = np.array((ROWS, COLS), np.int32)
-  print(board)
-  for r, game_row in enumerate(game.board.board):
-    for c, piece in enumerate(game_row):
-      print(r,c)
-      if piece == RED:
-        board[r,c] = 1
-      elif piece == WHITE:
-        board[r,c] = 2
+  board = np.zeros((8,8), np.int8)
+  for game_row in game.board.board:
+    for piece in game_row:
+      if piece == 0:
+        continue
+      if piece.king:
+        p = RK if piece.color == RED else WK
       else:
-        board[r, c] = 0
+        p = R if piece.color == RED else W
+      board[piece.row, piece.col] = p
   return board
 
 
@@ -71,7 +87,7 @@ def evaluate_board(board, turn):
 
 def get_best_move(game):
   board = _extract_board(game)
-  print('Exracted numpy board:', board)
+  print_board(board)
   return None
 
   valid_moves = _get_all_valid_moves(board, turn)
