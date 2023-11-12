@@ -11,7 +11,7 @@ class Board:
         self.red_kings = 0
         self.white_kings = 0
         self.create_board()
-        print('Board:', self.board)
+        print('Board at Creation time:', self.board)
 
     def draw_squares(self, win):
         win.fill(BLACK)
