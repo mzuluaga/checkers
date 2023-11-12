@@ -1,10 +1,13 @@
 #Minimax-algorhythmus mit Bewertungfunktion
+# Colab: https://colab.research.google.com/drive/1FJ2rwYxLjdzZyJRGS4CwQPacruhvl5t2#scrollTo=cnkCeQRZEtNa
 
 import copy
 import random
 from checkerboard.constants import RED, WHITE
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import colors
+from PIL import Image
 
 # RED/WHITE/RED KING/WHITE KING
 R=1
@@ -16,8 +19,12 @@ WK=4
 # Board functions
 #
 
+def empty_board() -> np.array:
+  return np.zeros((8,8), np.int8)
+
+
 def init_board() -> np.array:
-  board = np.zeros((8,8), np.int8)
+  board = empty_board()
   board[0] = [W, 0, W, 0, W, 0, W, 0]
   board[1] = [0, W, 0, W, 0, W, 0, W]
   board[2] = [W, 0, W, 0, W, 0, W, 0]
@@ -28,8 +35,20 @@ def init_board() -> np.array:
 
 
 def plot_board(board: np.array):
-  plt.plot()
-  plt.imshow(board, origin='lower')
+  array = np.ones([8, 8, 3], dtype=np.uint8)
+  array[:] = [64, 96, 255]  #light blue
+  array[board == R] = [255, 0, 0]
+  array[board == W] = [255, 255, 255]
+  array[board == RK] = [255, 125, 0]
+  array[board == WK] = [125, 125, 125]
+  img = Image.fromarray(array)
+  img = img.resize((160, 160), Image.Resampling.NEAREST)
+  fig, ax = plt.subplots(1)
+  im = ax.imshow(img, origin='lower')
+  ax.set_xticks(np.arange(0, 160, 20))
+  ax.set_yticks(np.arange(0, 160, 20))
+  ax.set_xticklabels(np.arange(0, 8, 1))
+  ax.set_yticklabels(np.arange(0, 8, 1))
   plt.show()
 
 
@@ -39,6 +58,7 @@ def print_board(board: np.array):
 
 
 def extract_board(game):
+  board = empty_board()
   board = np.zeros((8,8), np.int8)
   for game_row in game.board.board:
     for piece in game_row:
@@ -66,6 +86,27 @@ def move(board, from_coord, to_coord):
   board[r, c] = piece
   return board
 
+
+def count_red(board):
+  return np.count_nonzero((board == R) | (board == RK))
+
+
+def count_white(board):
+  return np.count_nonzero((board == W) | (board == WK))
+
+
+def check_winner(board):
+  if count_white(board) == 0:
+    return 'Red won!'
+  elif count_red(board) == 0:
+    return 'White won!'
+  return 'Es ist Unentschieden!'
+
+
+#
+# Mateo tienes que implementar todas estas functiones pero usando el
+# board que esta en este archivo.
+#
 
 def _get_all_valid_moves(board, turn):
   all_valid_moves = []
