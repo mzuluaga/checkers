@@ -19,12 +19,8 @@ WK=4
 # Board functions
 #
 
-def empty_board() -> np.array:
-  return np.zeros((8,8), np.int8)
-
-
-def init_board() -> np.array:
-  board = empty_board()
+def new_board() -> np.array:
+  board = np.zeros((8,8), np.int8)
   board[0] = [W, 0, W, 0, W, 0, W, 0]
   board[1] = [0, W, 0, W, 0, W, 0, W]
   board[2] = [W, 0, W, 0, W, 0, W, 0]
@@ -58,7 +54,6 @@ def print_board(board: np.array):
 
 
 def extract_board(game):
-  board = empty_board()
   board = np.zeros((8,8), np.int8)
   for game_row in game.board.board:
     for piece in game_row:
@@ -149,15 +144,14 @@ def evaluate_board(board, turn):
   return strength
 
 
-def get_best_move(game):
-  board = _extract_board(game)
+def get_best_move(current_board):
+  board = current_board.copy()
+
   print_board(board)
-  return None
 
   valid_moves = _get_all_valid_moves(board, turn)
   if not valid_moves:
     return None
-
 
   original_game = copy.deepcopy(board)
   max_strength = -500
