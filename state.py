@@ -48,12 +48,11 @@ def extract_board(game):
     return board
 
 
-def move(board, from_coord, to_coord):
+def move(board, m):
     # this doesn't check if the move is valid!
-    r, c = from_coord
+    (r, c), (r1, c1) = m
     piece = board[r, c]
     board[r, c] = 0
-    r1, c1 = to_coord
 
     # Jump implemented for 1 and 2, still need 3 or more
     w = 1
@@ -280,7 +279,7 @@ def get_all_valid_moves(board, turn):
     return all_valid_moves
 
 
-def evaluate_board(board, turn):
+def evaluate(board, turn):
     # Checks the accepted color of piece and king
     piece_color = check_piece(turn)
     king_color = check_king(turn)
