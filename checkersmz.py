@@ -44,8 +44,12 @@ def main():
                     game.select(row, col)
                 else:
                     # Meine Funktion nimmt das jetztige Brett und wählt einen zufälligen Spielzug und gibt die Reihe und Spalte der Figur sowie den Zug zurück
-                    (pr, pc), (row, col) = minimax.get_best_move(game, game.turn)
-                    #(pr, pc), (row, col) = minimax.move2(game.board, game.turn)
+                    # (pr, pc), (row, col) = minimax.get_best_move(game, game.turn)
+                     #(pr, pc), (row, col) = minimax.move2(game.board, game.turn)
+
+                    _strength, _move, _ = minimax.get_best_move(game)
+                    print(f's:{_strength} move{_move}')
+                    (pr, pc), (row, col) = _move
                     print(f'Minimax Selected: (pr, pc, row, col) = ({pr}, {pc}, {row}, {col})')
                     game.select(pr, pc)
                     game.select(row, col)
@@ -57,4 +61,3 @@ def main():
 
 
 main()
-

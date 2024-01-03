@@ -29,13 +29,8 @@ def new_board() -> np.array:
     return board
 
 
-def print_board(board: np.array):
-    print('Board:')
-    print('', f'{board[::-1]}'[1:-1])
-
-
 def extract_board(game):
-    board = np.zeros((8,8), np.int8)
+    board = new_board()
     for game_row in game.board.board:
         for piece in game_row:
             if piece == 0:
@@ -350,57 +345,57 @@ def evaluate(board, turn):
     return x_value
 
 
-def get_best_move(game, turn):
-    board = extract_board(game)
-    valid_moves = get_all_valid_moves(board, turn)
-    if not valid_moves:
-        return None
+# def get_best_move(game, turn):
+#     board = extract_board(game)
+#     valid_moves = get_all_valid_moves(board, turn)
+#     if not valid_moves:
+#         return None
 
-    original_game = board.copy()
-    max_strength = -500
-    max_move = valid_moves[0]
-    for i in range(len(valid_moves)):
-        # Nimmt jeden validen Zug und spielt ihn auf der Kopie des Brettes, dieses Brett wird dann bewertet.
-        (pr, pc), (row, col) = valid_moves[i]
-        place_board = move(board, (pr, pc), (row, col))
-        parameter = evaluate_board(place_board, turn)
-        strength = sum(parameter)
-        print(f'For move: {(pr, pc), (row, col)} ; There is Strength = {strength} : p1 = {parameter[0]}, p2 = {parameter[1]}, p3 = {parameter[2]}, p4 = {parameter[3]}, p5 = {parameter[4]}, p6 = {parameter[5]}')
-        # Falls dieser Zug eine bessere Bewertung hat als der vorher beste, wird dieser ersetzt
-        if strength > max_strength:
-            max_strength = strength
-            max_move = valid_moves[i]
-        board = original_game.copy()
+#     original_game = board.copy()
+#     max_strength = -500
+#     max_move = valid_moves[0]
+#     for i in range(len(valid_moves)):
+#         # Nimmt jeden validen Zug und spielt ihn auf der Kopie des Brettes, dieses Brett wird dann bewertet.
+#         (pr, pc), (row, col) = valid_moves[i]
+#         place_board = move(board, (pr, pc), (row, col))
+#         parameter = evaluate_board(place_board, turn)
+#         strength = sum(parameter)
+#         print(f'For move: {(pr, pc), (row, col)} ; There is Strength = {strength} : p1 = {parameter[0]}, p2 = {parameter[1]}, p3 = {parameter[2]}, p4 = {parameter[3]}, p5 = {parameter[4]}, p6 = {parameter[5]}')
+#         # Falls dieser Zug eine bessere Bewertung hat als der vorher beste, wird dieser ersetzt
+#         if strength > max_strength:
+#             max_strength = strength
+#             max_move = valid_moves[i]
+#         board = original_game.copy()
 
-    print('The strongest move is: (pr, pc, row, col)', max_move, 'with a strength of', max_strength)
-    return max_move
-
-
-# Funktion für einen Bot der zufällige Züge macht
-def move2(board, turn):
-    valid_moves = get_all_valid_moves(board, turn)
-    print('Valid Moves:', valid_moves)
-    return random.choice(valid_moves)
+#     print('The strongest move is: (pr, pc, row, col)', max_move, 'with a strength of', max_strength)
+#     return max_move
 
 
-def get_all_valid_moves2(board, turn):
-    all_valid_moves = []
-    amount_piece_moves = 0
-    for row in range(ROWS):
-        for col in range(COLS):
-            piece = board.get_piece(row, col)
-            if piece == 0 or piece.color != turn:
-                continue
-            # Now it checks only the pieces whose turn it is
-            valid_moves = board.get_valid_moves(piece)
-            print(valid_moves)
-            # If a piece has more than one valid move, the for-loop checks all of them
-            for (mr, mc) in valid_moves.keys():
-                all_valid_moves.append(((piece.row, piece.col), (mr, mc)))
-            if len(valid_moves) != 0:
-                amount_piece_moves += 1
-    print('There are', amount_piece_moves, 'pieces that can move')
-    return all_valid_moves
+# # Funktion für einen Bot der zufällige Züge macht
+# def move2(board, turn):
+#     valid_moves = get_all_valid_moves(board, turn)
+#     print('Valid Moves:', valid_moves)
+#     return random.choice(valid_moves)
+
+
+# def get_all_valid_moves2(board, turn):
+#     all_valid_moves = []
+#     amount_piece_moves = 0
+#     for row in range(ROWS):
+#         for col in range(COLS):
+#             piece = board.get_piece(row, col)
+#             if piece == 0 or piece.color != turn:
+#                 continue
+#             # Now it checks only the pieces whose turn it is
+#             valid_moves = board.get_valid_moves(piece)
+#             print(valid_moves)
+#             # If a piece has more than one valid move, the for-loop checks all of them
+#             for (mr, mc) in valid_moves.keys():
+#                 all_valid_moves.append(((piece.row, piece.col), (mr, mc)))
+#             if len(valid_moves) != 0:
+#                 amount_piece_moves += 1
+#     print('There are', amount_piece_moves, 'pieces that can move')
+#     return all_valid_moves
 
 
 '''
