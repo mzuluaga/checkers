@@ -50,28 +50,6 @@ def extract_board(game):
       board[piece.row, piece.col] = p
   return board
 
-
-def move(board, m):
-  # move only moves one move.
-  # this move is assumed to be valid!
-  (pr, pc), (r, c) = m
-  piece = board[pr, pc]
-  if abs(r - pr) > 1 or abs(c - pc) > 1:
-    mr = (r + pr) // 2
-    mc = (c + pc) // 2
-    board[mr, mc] = 0
-
-  board[pr, pc] = 0
-
-  # check queen promotion.
-  if piece == W and r == 7:
-    piece = WK
-  elif piece == R and r == 0:
-    piece = RK
-  board[r, c] = piece
-  return board
-
-
 def count_red(board):
     return np.count_nonzero((board == R) | (board == RK))
 
@@ -109,6 +87,22 @@ def check_winner(board):
         return 'White won!'
     return 'Es ist Unentschieden!'
 
+def move(board, m):
+  """Updates board with a single move."""
+  (pr, pc), (r, c) = m
+  piece = board[pr, pc]
+  capturing_piece = abs(r - pr) > 1 or abs(c - pc) > 1
+  if capturing_piece:
+    mr = (r + pr) // 2
+    mc = (c + pc) // 2
+    board[mr, mc] = 0
+  board[pr, pc] = 0
+  if piece == W and r == 7:
+    piece = WK
+  elif piece == R and r == 0:
+    piece = RK
+  board[r, c] = piece
+  return board
 
 def check_moves(board, piece, row, col, jumped, og_row, og_col):
     moves = []
