@@ -16,16 +16,16 @@ def check_winner(game, turn):
   return False, 'Es ist Unentschieden!'
 
 
-# def utility(board):
-#   return state.evaluate(board, WHITE)
-
 def utility(board):
-  p6 = random.randint(0, 10) / 10000
-  rc = state.count_red(board)
-  return (1.0 / (rc + 1)) + p6
-  # wc = state.count_white(board)
-  # return (wc - rc + 1) / (wc + rc)
+  return state.evaluate(board, WHITE)
 
+# # simple utility
+# def utility(board):
+#   p6 = random.randint(0, 10) / 10000
+#   rc = state.count_red(board)
+#   return (1.0 / (rc + 1)) + p6
+#   # wc = state.count_white(board)
+#   # return (wc - rc + 1) / (wc + rc)
 
 def end_game(board, turn):
   for m in state.get_moves(board, turn):
