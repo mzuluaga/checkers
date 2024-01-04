@@ -17,7 +17,7 @@ def succesors(board, turn):
     yield m, state.move(board.copy(), m)
 
 
-def max_strength(board, depth):
+def max_strength(board, alpha, beta, depth):
   turn = WHITE
   if depth == 0 or end_game(board, turn):
     return state.evaluate(board, turn), None, None
@@ -29,7 +29,7 @@ def max_strength(board, depth):
   return _s, _move, _board
 
 
-def min_strength(board, depth):
+def min_strength(board, alpha, beta, depth):
   turn = RED
   if depth == 0 or end_game(board, turn):
     return state.evaluate(board, turn), None, None
@@ -45,5 +45,6 @@ def get_best_move(game, depth=DEPTH):
   """MinMax function."""
   board = state.extract_board(game)
   print('Extracted board:\n', board)
+  alpha, beta = -INF, INF
   _strength, _move, _board = max_strength(board, depth)
   return _strength, _move, _board

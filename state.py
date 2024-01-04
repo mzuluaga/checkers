@@ -31,10 +31,19 @@ def new_board() -> np.array:
   return board
 
 def print_board(board):
-  print('Board:')
-  print('   0 1 2 3 4 5 6 7')
+  print('\nBoard:')
+  print('  0 1 2 3 4 5 6 7')
   for i in range(8):
-    print(f'{i} {board[i,:]}')
+    rs = f'{board[i,:]}'
+    rs = rs.replace('[', '')
+    rs = rs.replace(']', '')
+    rs = rs.replace('0', '\u25A1')
+    rs = rs.replace('1', '\u2659')
+    rs = rs.replace('2', '\u265F')
+    rs = rs.replace('3', '\u2655')
+    rs = rs.replace('4', '\u265B')
+    rs = f'{i} {rs}'
+    print(rs)
 
 
 def extract_board(game):
