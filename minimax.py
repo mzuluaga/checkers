@@ -28,7 +28,7 @@ def max_strength(board, alpha, beta, depth):
       _s, _move, _board = tmp_s, m, new_board
     if _s >= beta:
       break
-    beta = max(beta, _s)
+    alph = max(alpha, _s)
   return _s, _move, _board
 
 
@@ -43,7 +43,7 @@ def min_strength(board, alpha, beta, depth):
       _s, _move, _board = tmp_s, m, new_board
     if _s <= alpha:
       break
-    alpha = min(alpha, _s)
+    beta = min(beta, _s)
   return _s, _move, _board
 
 
