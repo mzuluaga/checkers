@@ -298,3 +298,13 @@ def evaluate(board, turn):
 
     strength = sum([p1, p2, p3, p4, p5, p6])
     return strength
+
+
+def check_winner(game, turn):
+  board = extract_board(game)
+  moves = get_moves(board, turn)
+  if turn == WHITE and moves == []:
+    return True, 'Rot gewinnt!'
+  elif turn == RED and moves == []:
+    return True, 'Weiss gewinnt!'
+  return False, 'Es ist Unentschieden!'

@@ -6,17 +6,9 @@ import state
 INF=1e6
 DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 
-def check_winner(game, turn):
-  board = state.extract_board(game)
-  moves = state.get_moves(board, turn)
-  if turn == WHITE and moves == []:
-    return True, 'Rot gewinnt!'
-  elif turn == RED and moves == []:
-    return True, 'Weiss gewinnt!'
-  return False, 'Es ist Unentschieden!'
-
-
 def utility(board):
+  if state.count_red(board) == 0:
+    return INF
   return state.evaluate(board, WHITE)
 
 # # simple utility

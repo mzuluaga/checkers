@@ -41,7 +41,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:    #Falls man seine Maus klickt wird hier alles definiert zur Spielzugausführung
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem Feld klicken, dann wird es uns diesen Code ausführen und wissen welche Spielfigur, wir gedrückt haben
-                won, msg = minimax.check_winner(game, game.turn)
+                won, msg = state.check_winner(game, game.turn)
                 if won:
                   print(msg)
                   run = False
