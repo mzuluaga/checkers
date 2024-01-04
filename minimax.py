@@ -8,13 +8,10 @@ INF=1e6
 def end_game(board, turn):
   for m in state.get_valid_moves(board, turn):
     return False
-  # print(f'EndGame: {turn}')
-  # print(board)
   return True
 
 
 def succesors(board, turn):
-  # print(board)
   original_board = board.copy()
   valid_moves = state.get_valid_moves(board, turn)
   for m in valid_moves:
@@ -23,7 +20,6 @@ def succesors(board, turn):
 
 
 def max_strength(board, depth):
-  # turn = RED
   turn = WHITE
   if depth == 0 or end_game(board, turn):
     return state.evaluate(board, turn), None, None
@@ -36,7 +32,6 @@ def max_strength(board, depth):
 
 
 def min_strength(board, depth):
-  # turn = WHITE
   turn = RED
   if depth == 0 or end_game(board, turn):
     return state.evaluate(board, turn), None, None
