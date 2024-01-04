@@ -1,9 +1,7 @@
-# Minimax-Algorithmus mit Bewertungsfunktion
 import copy
 import random
 
 import pygame
-import networkx as nx
 from checkerboard.constants import RED, WHITE, ROWS, COLS
 from checkerboard.game import Game
 import numpy as np
@@ -65,7 +63,7 @@ def move(board, m):
                 board[r1-3*w, c1-3*m] = 0
             else:
                 # have to make for all colour!
-                if (board[r1-1*w, c1+1] and board[r1-3*w, c1+1]) == (R or RK):
+                if (board[r1-1*w, c1+1] and board[r1-3*w, c1+1]) in [R or RK]:
                     board[r1-1*w, c1+1] = 0
                     board[r1-3*w, c1+1] = 0
                 else:
@@ -116,9 +114,9 @@ def check_king(turn):
 
 # Checks the color of a piece
 def check_color(piece):
-    if piece == (R or RK):
+    if piece in [R or RK]:
         color = RED
-    elif piece == (W or WK):
+    elif piece in [W, WK]:
         color = WHITE
     else:
         color = 0
@@ -140,12 +138,6 @@ def check_winner(board):
     return 'Es ist Unentschieden!'
 
 
-#
-# Mateo tienes que implementar todas estas functiones pero usando el
-# board que esta en este archivo.
-#
-
-
 def check_moves(board, piece, row, col, jumped, og_row, og_col):
     moves = []
     row = row
@@ -156,7 +148,7 @@ def check_moves(board, piece, row, col, jumped, og_row, og_col):
             moves.append(((og_row, og_col), (row-1, col+1)))
         if check_bounds(row-1, col-1) and board[row-1][col-1] == 0 and not jumped:
             moves.append(((og_row, og_col), (row-1, col-1)))
-        if check_bounds(row-2, col+2) and board[row-1][col+1] == (W or WK) and board[row-2][col+2] == 0:
+        if check_bounds(row-2, col+2) and board[row-1][col+1] in [W, WK] and board[row-2][col+2] == 0:
             moves.append(((og_row, og_col), (row-2, col+2)))
             jumped = True
             newboard = board
@@ -165,7 +157,7 @@ def check_moves(board, piece, row, col, jumped, og_row, og_col):
             newboard[row-2][col+2] = piece
             moves2 = check_moves(newboard, piece, row-2, col+2, jumped, og_row, og_col)
             moves.extend(moves2)
-        if check_bounds(row-2, col-2) and board[row-1][col-1] == (W or WK) and board[row-2][col-2] == 0:
+        if check_bounds(row-2, col-2) and board[row-1][col-1] in [W, WK] and board[row-2][col-2] == 0:
             moves.append(((og_row, og_col), (row-2, col-2)))
             jumped = True
             newboard = board
@@ -180,7 +172,7 @@ def check_moves(board, piece, row, col, jumped, og_row, og_col):
             moves.append(((og_row, og_col), (row+1, col+1)))
         if check_bounds(row+1, col-1) and board[row+1][col-1] == 0 and not jumped:
             moves.append(((og_row, og_col), (row+1, col-1)))
-        if check_bounds(row+2, col+2) and board[row+1][col+1] == (R or RK) and board[row+2][col+2] == 0:
+        if check_bounds(row+2, col+2) and board[row+1][col+1] in [R or RK] and board[row+2][col+2] == 0:
             moves.append(((og_row, og_col), (row+2, col+2)))
             jumped = True
             newboard = board
@@ -189,7 +181,7 @@ def check_moves(board, piece, row, col, jumped, og_row, og_col):
             newboard[row+2][col+2] = piece
             moves2 = check_moves(newboard, piece, row+2, col+2, jumped, og_row, og_col)
             moves.extend(moves2)
-        if check_bounds(row+2, col-2) and board[row+1][col-1] == (R or RK) and board[row+2][col-2] == 0:
+        if check_bounds(row+2, col-2) and board[row+1][col-1] in [R or RK] and board[row+2][col-2] == 0:
             moves.append(((og_row, og_col), (row+2, col-2)))
             jumped = True
             newboard = board
@@ -247,11 +239,10 @@ def check_moves(board, piece, row, col, jumped, og_row, og_col):
             moves.extend(moves2)
 
     moves = list(set(moves))
-
     return moves
 
 
-def get_all_valid_moves(board, turn):
+def get_valid_moves(board, turn):
     piece_color = check_piece(turn)
     king_color = check_king(turn)
     original_game = board.copy()
@@ -260,16 +251,14 @@ def get_all_valid_moves(board, turn):
     for row in range(ROWS):
         for col in range(COLS):
             piece = board[row][col]
-            if piece != (piece_color and king_color):
+            if piece not in [piece_color, king_color]:
                 continue
             # Now it checks only the pieces whose turn it is
             valid_moves = check_moves(board, piece, row, col, False, row, col)
-            board = original_game.copy()
-            # If a piece has more than one valid move, the for-loop checks all of them
-            for ((pr, pc), (mr, mc)) in valid_moves:
-                all_valid_moves.append(((pr, pc), (mr, mc)))
-            if len(valid_moves) != 0:
+            all_valid_moves.extend(valid_moves)
+            if valid_moves:
                 amount_piece_moves += 1
+            board = original_game.copy()
     print('There are', amount_piece_moves, 'pieces that can move')
     return all_valid_moves
 
@@ -296,9 +285,9 @@ def evaluate(board, turn):
                     amount += 1
                     # Parameter 4 schaut, ob gegnerische Figuren vor einer unbeschützten Figur stehen
                     if 1 <= row <= 6 and 1 <= col <= 6:
-                        if board[row-1][col-1] == 0 and board[row+1][col+1] == (R or RK):
+                        if board[row-1][col-1] == 0 and board[row+1][col+1] in [R or RK]:
                             p4 = p4 - 1
-                        if board[row-1][col+1] == 0 and board[row+1][col-1] == (R or RK):
+                        if board[row-1][col+1] == 0 and board[row+1][col-1] in [R or RK]:
                             p4 = p4 - 1
                 # Parameter 5 macht, dass die Damen zu den mittleren Reihen gehen wollen, für Kontrolle
                 if piece == king_color:
@@ -324,9 +313,9 @@ def evaluate(board, turn):
                     p3 = p3 + (7-row)/10
                     amount += 1
                     if 1 <= row <= 6 and 1 <= col <= 6:
-                        if board[row+1][col+1] == 0 and board[row-1][col-1] == (W or WK):
+                        if board[row+1][col+1] == 0 and board[row-1][col-1] in [W, WK]:
                             p4 = p4 - 1
-                        if board[row+1][col-1] == 0 and board[row-1][col+1] == (W or WK):
+                        if board[row+1][col-1] == 0 and board[row-1][col+1] in [W, WK]:
                             p4 = p4 - 1
                 if piece == king_color:
                     if row <= 3:
@@ -338,77 +327,7 @@ def evaluate(board, turn):
         if count_red_kings(board) != 0:
             p5 = p5/count_red_kings(board)
 
-    p6 = random.randint(0, 10)
-    p6 = p6/10000
+    p6 = random.randint(0, 10) / 10000
 
-    x_value = [p1, p2, p3, p4, p5, p6]
-    return x_value
-
-
-# def get_best_move(game, turn):
-#     board = extract_board(game)
-#     valid_moves = get_all_valid_moves(board, turn)
-#     if not valid_moves:
-#         return None
-
-#     original_game = board.copy()
-#     max_strength = -500
-#     max_move = valid_moves[0]
-#     for i in range(len(valid_moves)):
-#         # Nimmt jeden validen Zug und spielt ihn auf der Kopie des Brettes, dieses Brett wird dann bewertet.
-#         (pr, pc), (row, col) = valid_moves[i]
-#         place_board = move(board, (pr, pc), (row, col))
-#         parameter = evaluate_board(place_board, turn)
-#         strength = sum(parameter)
-#         print(f'For move: {(pr, pc), (row, col)} ; There is Strength = {strength} : p1 = {parameter[0]}, p2 = {parameter[1]}, p3 = {parameter[2]}, p4 = {parameter[3]}, p5 = {parameter[4]}, p6 = {parameter[5]}')
-#         # Falls dieser Zug eine bessere Bewertung hat als der vorher beste, wird dieser ersetzt
-#         if strength > max_strength:
-#             max_strength = strength
-#             max_move = valid_moves[i]
-#         board = original_game.copy()
-
-#     print('The strongest move is: (pr, pc, row, col)', max_move, 'with a strength of', max_strength)
-#     return max_move
-
-
-# # Funktion für einen Bot der zufällige Züge macht
-# def move2(board, turn):
-#     valid_moves = get_all_valid_moves(board, turn)
-#     print('Valid Moves:', valid_moves)
-#     return random.choice(valid_moves)
-
-
-# def get_all_valid_moves2(board, turn):
-#     all_valid_moves = []
-#     amount_piece_moves = 0
-#     for row in range(ROWS):
-#         for col in range(COLS):
-#             piece = board.get_piece(row, col)
-#             if piece == 0 or piece.color != turn:
-#                 continue
-#             # Now it checks only the pieces whose turn it is
-#             valid_moves = board.get_valid_moves(piece)
-#             print(valid_moves)
-#             # If a piece has more than one valid move, the for-loop checks all of them
-#             for (mr, mc) in valid_moves.keys():
-#                 all_valid_moves.append(((piece.row, piece.col), (mr, mc)))
-#             if len(valid_moves) != 0:
-#                 amount_piece_moves += 1
-#     print('There are', amount_piece_moves, 'pieces that can move')
-#     return all_valid_moves
-
-
-'''
-board = new_board()
-board[5][4] = 0
-board[4][3] = RK
-board[2][1] = 0
-board[3][2] = W
-board[0][3] = 0
-board[3][4] = W
-board[2][5] = 0
-board[0][7] = 0
-print(board)
-moves = check_moves(board, RK, 4, 3, False, 4, 3)
-print(moves)
-'''
+    strength = sum([p1, p2, p3, p4, p5, p6])
+    return strength

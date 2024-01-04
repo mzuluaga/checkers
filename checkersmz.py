@@ -3,7 +3,6 @@
 import time
 import pygame
 import math
-import networkx as nx
 from checkerboard.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkerboard.game import Game
 from checkerboard.board import Board
@@ -44,9 +43,6 @@ def main():
                     game.select(row, col)
                 else:
                     # Meine Funktion nimmt das jetztige Brett und wählt einen zufälligen Spielzug und gibt die Reihe und Spalte der Figur sowie den Zug zurück
-                    # (pr, pc), (row, col) = minimax.get_best_move(game, game.turn)
-                     #(pr, pc), (row, col) = minimax.move2(game.board, game.turn)
-
                     _strength, _move, _ = minimax.get_best_move(game)
                     print(f's:{_strength} move{_move}')
                     (pr, pc), (row, col) = _move
