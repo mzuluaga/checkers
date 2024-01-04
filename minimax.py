@@ -3,7 +3,7 @@ from checkerboard.constants import RED, WHITE
 import state
 
 INF=1e6
-DEPTH=4
+DEPTH=3
 
 def end_game(board, turn):
   for m in state.get_moves(board, turn):
@@ -23,9 +23,12 @@ def max_strength(board, alpha, beta, depth):
     return state.evaluate(board, turn), None, None
   _s, _move, _board = -INF, None, None
   for m, new_board in succesors(board, turn):
-    tmp_s, _, _ = min_strength(new_board, depth-1)
+    tmp_s, _, _ = min_strength(new_board, alpha, beta, depth-1)
     if _s < tmp_s:
       _s, _move, _board = tmp_s, m, new_board
+    if _s >= beta:
+      break
+    beta = max(beta, _s)
   return _s, _move, _board
 
 
@@ -35,9 +38,12 @@ def min_strength(board, alpha, beta, depth):
     return state.evaluate(board, turn), None, None
   _s, _move, _board = INF, None, None
   for m, new_board in succesors(board, turn):
-    tmp_s, _, _ = max_strength(new_board, depth-1)
+    tmp_s, _, _ = max_strength(new_board, alpha, beta, depth-1)
     if _s > tmp_s:
       _s, _move, _board = tmp_s, m, new_board
+    if _s <= alpha:
+      break
+    alpha = min(alpha, _s)
   return _s, _move, _board
 
 
@@ -45,6 +51,5 @@ def get_best_move(game, depth=DEPTH):
   """MinMax function."""
   board = state.extract_board(game)
   print('Extracted board:\n', board)
-  alpha, beta = -INF, INF
-  _strength, _move, _board = max_strength(board, depth)
+  _strength, _move, _board = max_strength(board, -INF, INF, depth)
   return _strength, _move, _board
