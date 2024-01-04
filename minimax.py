@@ -3,16 +3,16 @@ from checkerboard.constants import RED, WHITE
 import state
 
 INF=1e6
-DEPTH=3
+DEPTH=4
 
 def end_game(board, turn):
-  for m in state.get_valid_moves(board, turn):
+  for m in state.get_moves(board, turn):
     return False
   return True
 
 
 def succesors(board, turn):
-  valid_moves = state.get_valid_moves(board, turn)
+  valid_moves = state.get_moves(board, turn)
   for m in valid_moves:
     yield m, state.move(board.copy(), m)
 
