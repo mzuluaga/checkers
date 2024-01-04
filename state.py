@@ -89,13 +89,6 @@ def get_color(piece):
 def check_bounds(x, y):
   return 0 <= x <= 7 and 0 <= y <= 7
 
-def get_winner(board):
-    if count_white(board) == 0:
-        return 'Red won!'
-    elif count_red(board) == 0:
-        return 'White won!'
-    return 'Es ist Unentschieden!'
-
 def move(board, m):
   """Updates board with a single move."""
   (pr, pc), (r, c) = m
@@ -166,7 +159,7 @@ def get_piece_moves(board, piece, row, col, jumped, og_row, og_col):
             moves2 = get_piece_moves(newboard, piece, row+2, col-2, jumped, og_row, og_col)
             moves.extend(moves2)
 
-    if piece == (RK or WK):
+    if piece in [RK, WK]:
         if check_bounds(row-1, col+1) and board[row-1][col+1] == 0 and not jumped:
             moves.append(((og_row, og_col), (row-1, col+1)))
         if check_bounds(row-1, col-1) and board[row-1][col-1] == 0 and not jumped:
@@ -213,8 +206,7 @@ def get_piece_moves(board, piece, row, col, jumped, og_row, og_col):
             moves2 = get_piece_moves(newboard, piece, row+2, col-2, jumped, og_row, og_col)
             moves.extend(moves2)
 
-    moves = list(set(moves))
-    return moves
+    return list(set(moves))
 
 
 def get_moves(board, turn):
@@ -261,9 +253,9 @@ def evaluate(board, turn):
                     # Parameter 4 schaut, ob gegnerische Figuren vor einer unbeschützten Figur stehen
                     if 1 <= row <= 6 and 1 <= col <= 6:
                         if board[row-1][col-1] == 0 and board[row+1][col+1] in [R or RK]:
-                            p4 = p4 - 1
+                            p4 = p4 - 0.5
                         if board[row-1][col+1] == 0 and board[row+1][col-1] in [R or RK]:
-                            p4 = p4 - 1
+                            p4 = p4 - 0.5
                 # Parameter 5 macht, dass die Damen zu den mittleren Reihen gehen wollen, für Kontrolle
                 if piece == king_color:
                     if row <= 3:
@@ -289,9 +281,9 @@ def evaluate(board, turn):
                     amount += 1
                     if 1 <= row <= 6 and 1 <= col <= 6:
                         if board[row+1][col+1] == 0 and board[row-1][col-1] in [W, WK]:
-                            p4 = p4 - 1
+                            p4 = p4 - 0.5
                         if board[row+1][col-1] == 0 and board[row-1][col+1] in [W, WK]:
-                            p4 = p4 - 1
+                            p4 = p4 - 0.5
                 if piece == king_color:
                     if row <= 3:
                         p5 = p5 + row*0.25

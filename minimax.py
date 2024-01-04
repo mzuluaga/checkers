@@ -3,7 +3,27 @@ from checkerboard.constants import RED, WHITE
 import state
 
 INF=1e6
-DEPTH=5   # will have DEPTH+1 levels. (has to be odd).
+DEPTH=1   # will have DEPTH+1 levels. (has to be odd).
+
+def check_winner(game, turn):
+  board = state.extract_board(game)
+  moves = state.get_moves(board, turn)
+  if turn == WHITE and moves == []:
+    return True, 'Rot gewinnt!'
+  elif turn == RED and moves == []:
+    return True, 'Weiss gewinnt!'
+  return False, 'Es ist Unentschieden!'
+
+
+def utility(board):
+  return state.evaluate(board, WHITE)
+
+# rc = state.count_red(board)
+  # return 1.0 / (rc + 1)
+
+  # wc = state.count_white(board)
+  # return (wc - rc + 1) / (wc + rc)
+
 
 def end_game(board, turn):
   for m in state.get_moves(board, turn):
@@ -20,7 +40,10 @@ def succesors(board, turn):
 def max_strength(board, alpha, beta, depth):
   turn = WHITE
   if depth == 0 or end_game(board, turn):
-    return state.evaluate(board, turn), None, None
+    u = utility(board)
+    print('utility:', u)
+    state.print_board(board)
+    return u, None, None
   _s, _move, _board = -INF, None, None
   for m, new_board in succesors(board, turn):
     tmp_s, _, _ = min_strength(new_board, alpha, beta, depth-1)
@@ -37,7 +60,10 @@ def max_strength(board, alpha, beta, depth):
 def min_strength(board, alpha, beta, depth):
   turn = RED
   if depth == 0 or end_game(board, turn):
-    return state.evaluate(board, WHITE), None, None
+    u = utility(board)
+    print('utility:', u)
+    state.print_board(board)
+    return u, None, None
   _s, _move, _board = INF, None, None
   for m, new_board in succesors(board, turn):
     tmp_s, _, _ = max_strength(new_board, alpha, beta, depth-1)
