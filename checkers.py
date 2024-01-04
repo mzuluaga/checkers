@@ -6,6 +6,7 @@ import math
 from checkerboard.constants import WIDTH, HEIGHT, SQUARE_SIZE, RED, WHITE
 from checkerboard.game import Game
 from checkerboard.board import Board
+import state
 import minimax
 
 # Flussdiagramm zu Minimax machen!
@@ -41,14 +42,17 @@ def main():
                 row, col = get_row_col_from_mouse(pos)  #Wenn wir also die Maus auf einem Feld klicken, dann wird es uns diesen Code ausführen und wissen welche Spielfigur, wir gedrückt haben
                 if game.turn == RED:
                     game.select(row, col)
+                    board = state.extract_board(game)
+                    print('Extracted board after RED move:\n', board)
+
                 else:
-                    # Meine Funktion nimmt das jetztige Brett und wählt einen zufälligen Spielzug und gibt die Reihe und Spalte der Figur sowie den Zug zurück
                     _strength, _move, _ = minimax.get_best_move(game)
-                    print(f's:{_strength} move{_move}')
                     (pr, pc), (row, col) = _move
-                    print(f'Minimax Selected: (pr, pc, row, col) = ({pr}, {pc}, {row}, {col})')
+                    print(f'Minimax Selected: {_strength} : (pr, pc, row, col) = {_move}')
                     game.select(pr, pc)
                     game.select(row, col)
+                    board = state.extract_board(game)
+                    print('Extracted board after WHITE move:\n', board)
 
         game.update()
 

@@ -8,14 +8,17 @@ INF=1e6
 def end_game(board, turn):
   for m in state.get_valid_moves(board, turn):
     return False
-  print(f'EndGame: {turn}')
+  # print(f'EndGame: {turn}')
   # print(board)
   return True
 
 
 def succesors(board, turn):
   # print(board)
-  for m in state.get_valid_moves(board, turn):
+  original_board = board.copy()
+  valid_moves = state.get_valid_moves(board, turn)
+  for m in valid_moves:
+    board = original_board.copy()
     yield m, state.move(board, m)
 
 
@@ -47,6 +50,7 @@ def min_strength(board, depth):
 
 def get_best_move(game):
   """MinMax function."""
-  _strength, _move, _board = max_strength(state.extract_board(game), depth=5)
-  print(f'Found max-move: {_strength}, {_move} \n {_board}')
+  board = state.extract_board(game)
+  print('Extracted board:\n', board)
+  _strength, _move, _board = max_strength(board, depth=2)
   return _strength, _move, _board

@@ -41,6 +41,9 @@ class Board:
     def get_piece(self, row, col):
         return self.board[row][col]
 
+    def clear_piece(self, row, col):
+        self.board[row][col] = 0
+
     def create_board(self):
         for row in range(ROWS):
             self.board.append([])

@@ -28,17 +28,17 @@ def new_board() -> np.array:
 
 
 def extract_board(game):
-    board = new_board()
-    for game_row in game.board.board:
-        for piece in game_row:
-            if piece == 0:
-                continue
-            if piece.king:
-                p = RK if piece.color == RED else WK
-            else:
-                p = R if piece.color == RED else W
-            board[piece.row, piece.col] = p
-    return board
+  board = np.zeros((8,8), np.int8)
+  for game_row in game.board.board:
+    for piece in game_row:
+      if piece == 0:
+        continue
+      if piece.king:
+        p = RK if piece.color == RED else WK
+      else:
+        p = R if piece.color == RED else W
+      board[piece.row, piece.col] = p
+  return board
 
 
 def move(board, m):
@@ -246,8 +246,8 @@ def get_valid_moves(board, turn):
     piece_color = check_piece(turn)
     king_color = check_king(turn)
     original_game = board.copy()
-    all_valid_moves = []
-    amount_piece_moves = 0
+    all_moves = []
+    piece_moves = 0
     for row in range(ROWS):
         for col in range(COLS):
             piece = board[row][col]
@@ -255,12 +255,12 @@ def get_valid_moves(board, turn):
                 continue
             # Now it checks only the pieces whose turn it is
             valid_moves = check_moves(board, piece, row, col, False, row, col)
-            all_valid_moves.extend(valid_moves)
+            all_moves.extend(valid_moves)
             if valid_moves:
-                amount_piece_moves += 1
+                piece_moves += 1
             board = original_game.copy()
-    print('There are', amount_piece_moves, 'pieces that can move')
-    return all_valid_moves
+    # print('There are', piece_moves, 'pieces that can move')
+    return all_moves
 
 
 def evaluate(board, turn):
