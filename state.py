@@ -16,15 +16,25 @@ WK = 4
 # Board functions
 #
 
+def empty_board() -> np.array:
+  return np.zeros((8,8), np.int8)
+
+
 def new_board() -> np.array:
-    board = np.zeros((8,8), np.int8)
-    board[0] = [0, W, 0, W, 0, W, 0, W]
-    board[1] = [W, 0, W, 0, W, 0, W, 0]
-    board[2] = [0, W, 0, W, 0, W, 0, W]
-    board[5] = [R, 0, R, 0, R, 0, R, 0]
-    board[6] = [0, R, 0, R, 0, R, 0, R]
-    board[7] = [R, 0, R, 0, R, 0, R, 0]
-    return board
+  board = np.zeros((8,8), np.int8)
+  board[0] = [0, W, 0, W, 0, W, 0, W]
+  board[1] = [W, 0, W, 0, W, 0, W, 0]
+  board[2] = [0, W, 0, W, 0, W, 0, W]
+  board[5] = [R, 0, R, 0, R, 0, R, 0]
+  board[6] = [0, R, 0, R, 0, R, 0, R]
+  board[7] = [R, 0, R, 0, R, 0, R, 0]
+  return board
+
+def print_board(board):
+  print('Board:')
+  print('   0 1 2 3 4 5 6 7')
+  for i in range(8):
+    print(f'{i} {board[i,:]}')
 
 
 def extract_board(game):
@@ -42,77 +52,44 @@ def extract_board(game):
 
 
 def move(board, m):
-    # this doesn't check if the move is valid!
-    (r, c), (r1, c1) = m
-    piece = board[r, c]
-    board[r, c] = 0
+  # move only moves one move.
+  # this move is assumed to be valid!
+  (pr, pc), (r, c) = m
+  piece = board[pr, pc]
+  if abs(r - pr) > 1 or abs(c - pc) > 1:
+    mr = (r + pr) // 2
+    mc = (c + pc) // 2
+    board[mr, mc] = 0
 
-    # Jump implemented for 1 and 2, still need 3 or more
-    w = 1
-    m = 1
-    if r1 - r < 0:
-        w = -1
-    if c1 - c < 0:
-        m = -1
-    if (r1-r) % 2 == 0:
-        if r1 - r == (2 or w*2):
-            board[r1-1*w, c1-1*m] = 0
-        if r1 - r == (4 or w*4 or 6 or w*6):
-            if c1 - c == (4 or w*4 or 6 or w*6):
-                board[r1-1*w, c1-1*m] = 0
-                board[r1-3*w, c1-3*m] = 0
-            else:
-                # have to make for all colour!
-                if (board[r1-1*w, c1+1] and board[r1-3*w, c1+1]) in [R or RK]:
-                    board[r1-1*w, c1+1] = 0
-                    board[r1-3*w, c1+1] = 0
-                else:
-                    board[r1-1*w, c1-1] = 0
-                    board[r1-3*w, c1-1] = 0
+  board[pr, pc] = 0
 
-    if piece == W and r == 7:
-        piece = WK
-    elif piece == R and r == 0:
-        piece = RK
-    board[r1, c1] = piece
-    return board
+  # check queen promotion.
+  if piece == W and r == 7:
+    piece = WK
+  elif piece == R and r == 0:
+    piece = RK
+  board[r, c] = piece
+  return board
 
 
 def count_red(board):
     return np.count_nonzero((board == R) | (board == RK))
 
-
 def count_red_kings(board):
     return np.count_nonzero((board == RK))
-
 
 def count_white(board):
     return np.count_nonzero((board == W) | (board == WK))
 
-
 def count_white_kings(board):
     return np.count_nonzero((board == WK))
 
-
-# Checks the accepted piece colour this turn
 def check_piece(turn):
-    if turn == WHITE:
-        piece_color = W
-    else:
-        piece_color = R
-    return piece_color
+  return W if turn == WHITE else R
 
-
-# Checks the accepted King Colour for this turn
 def check_king(turn):
-    if turn == WHITE:
-        king_color = WK
-    else:
-        king_color = RK
-    return king_color
+  return WK if turn == WHITE else RK
 
-
-# Checks the color of a piece
 def check_color(piece):
     if piece in [R or RK]:
         color = RED
@@ -122,13 +99,8 @@ def check_color(piece):
         color = 0
     return color
 
-
 def check_bounds(x, y):
-    if 0 <= x <= 7 and 0 <= y <= 7:
-        return True
-    else:
-        return False
-
+  return 0 <= x <= 7 and 0 <= y <= 7
 
 def check_winner(board):
     if count_white(board) == 0:
