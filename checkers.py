@@ -43,8 +43,8 @@ def main():
                 if game.turn == RED:
                     game.select(row, col)
                     board = state.extract_board(game)
-                    print('Extracted board after RED move:\n', board)
-
+                    print('Extracted board after RED move:')
+                    state.print_board(board)
                 else:
                     _strength, _move, _ = minimax.get_best_move(game)
                     (pr, pc), (row, col) = _move
@@ -52,7 +52,8 @@ def main():
                     game.select(pr, pc)
                     game.select(row, col)
                     board = state.extract_board(game)
-                    print('Extracted board after WHITE move:\n', board)
+                    print('Extracted board after WHITE move:')
+                    state.print_board(board)
 
         game.update()
 
