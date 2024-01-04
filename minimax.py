@@ -3,7 +3,7 @@ from checkerboard.constants import RED, WHITE
 import state
 
 INF=1e6
-
+DEPTH=3
 
 def end_game(board, turn):
   for m in state.get_valid_moves(board, turn):
@@ -12,11 +12,9 @@ def end_game(board, turn):
 
 
 def succesors(board, turn):
-  original_board = board.copy()
   valid_moves = state.get_valid_moves(board, turn)
   for m in valid_moves:
-    board = original_board.copy()
-    yield m, state.move(board, m)
+    yield m, state.move(board.copy(), m)
 
 
 def max_strength(board, depth):
@@ -43,9 +41,9 @@ def min_strength(board, depth):
   return _s, _move, _board
 
 
-def get_best_move(game):
+def get_best_move(game, depth=DEPTH):
   """MinMax function."""
   board = state.extract_board(game)
   print('Extracted board:\n', board)
-  _strength, _move, _board = max_strength(board, depth=2)
+  _strength, _move, _board = max_strength(board, depth)
   return _strength, _move, _board
