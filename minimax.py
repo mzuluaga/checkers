@@ -4,7 +4,7 @@ import random
 import state
 
 INF=1e6
-DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
+DEPTH=1   # will have DEPTH+1 levels. (has to be odd).
 
 # def utility(board):
 #   if state.count_red(board) == 0:
@@ -14,6 +14,8 @@ DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 # simple utility from white's perspective.
 # large positive numbers mean they are better for white.
 def utility(board):
+  if state.count_red(board) == 0:
+    return INF
   rc = state.count_red(board)
   wc = state.count_white(board)
   return (100 / (rc + 1)) + (-90 / (wc + 1))
@@ -37,19 +39,20 @@ def max_strength(board, alpha, beta, depth):
   turn = WHITE
   if depth == 0 or end_game(board, turn):
     u = utility(board)
-    print('utility:', u)
     state.print_board(board)
+    print('Candidate MAX utility: ', u)
     return u, None, None
   _s, _move, _board = -INF, None, None
-  for m, new_board in successors(board, turn):
-    tmp_s, _, _ = min_strength(new_board, alpha, beta, depth-1)
-    if _s < tmp_s:
-      _s, _move, _board = tmp_s, m, new_board
+  for m, mboard in successors(board, turn):
+    tmp_s, _, _ = min_strength(mboard, alpha, beta, depth-1)
+    if tmp_s > _s:
+      _s, _move, _board = tmp_s, m, mboard
+    alpha = max(alpha, _s)
+    #print(f'alpha = {alpha} {_s} {depth}')
     if _s >= beta:
       print(f'out in max function beta test: {_s} >= {beta}')
       break
-    alpha = max(alpha, _s)
-    #print(f'alpha = {alpha} {_s} {depth}')
+  assert _move is not None
   return _s, _move, _board
 
 
@@ -57,19 +60,20 @@ def min_strength(board, alpha, beta, depth):
   turn = RED
   if depth == 0 or end_game(board, turn):
     u = utility(board)
-    print('utility:', u)
     state.print_board(board)
+    print('Candidate MIN utility:', u)
     return u, None, None
   _s, _move, _board = INF, None, None
-  for m, new_board in successors(board, turn):
-    tmp_s, _, _ = max_strength(new_board, alpha, beta, depth-1)
-    if _s > tmp_s:
-      _s, _move, _board = tmp_s, m, new_board
-    if _s <= alpha:
-      print(f'out in min function alha test: {_s} <= {alpha}')
-      break
+  for m, mboard in successors(board, turn):
+    tmp_s, _, _ = max_strength(mboard, alpha, beta, depth-1)
+    if tmp_s < _s:
+      _s, _move, _board = tmp_s, m, mboard
     beta = min(beta, _s)
-    print(f'beta = {beta} {_s} {depth}')
+    #print(f'beta = {beta} {_s} {depth}')
+    if _s <= alpha:
+      print(f'out in min function alpha test: {_s} <= {alpha}')
+      break
+  assert _move is not None
   return _s, _move, _board
 
 
