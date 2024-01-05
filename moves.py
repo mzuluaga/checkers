@@ -9,7 +9,6 @@ import numpy as np
 # RED/WHITE/RED KING/WHITE KING
 R, W, RK, WK = 1, 2, 3, 4
 
-
 def get_color(piece):
   if piece in [R or RK]:
     color = RED
