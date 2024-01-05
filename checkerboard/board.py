@@ -42,7 +42,7 @@ class Board:
 
     def new_board(self) -> np.array:
       board = np.zeros((8,8), np.int8)
-      board[0] = [0, W, 0, WK, 0, W, 0, W]
+      board[0] = [0, W, 0, W, 0, W, 0, W]
       board[1] = [W, 0, W, 0, W, 0, W, 0]
       board[2] = [0, W, 0, W, 0, W, 0, W]
       board[5] = [R, 0, R, 0, R, 0, R, 0]
