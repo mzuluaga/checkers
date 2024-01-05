@@ -331,7 +331,7 @@ def evaluate(board, turn):
 
 def check_winner(game, turn):
   board = extract_board(game)
-  moves = get_moves(board.copy(), turn)
+  moves = get_moves(board, turn)
   if turn == WHITE and moves == []:
     return True, 'Rot gewinnt!'
   elif turn == RED and moves == []:

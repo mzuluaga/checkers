@@ -4,7 +4,7 @@ import random
 import state
 
 INF=1e6
-DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
+DEPTH=5   # will have DEPTH+1 levels. (has to be odd).
 
 # # simpler utility heuristic for testing.
 # # large positive numbers mean they are better for white.
