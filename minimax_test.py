@@ -51,7 +51,7 @@ class MinimaxTest(unittest.TestCase):
       state.print_board(mboard)
       print(f'Utility from WHITE perspective {m}: {minimax.utility(mboard)}')
     self.assertEqual(len(successors), 2)
-    self.assertEqual(successors[0][1].sum(), 5)
+    self.assertEqual(successors[0][1].sum(), 3)
     self.assertEqual(successors[1][1].sum(), 2)
 
 

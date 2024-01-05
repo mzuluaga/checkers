@@ -27,8 +27,8 @@ def new_board() -> np.array:
   board[7] = [R, 0, R, 0, R, 0, R, 0]
   return board
 
-def print_board(board):
-  print('\nBoard:')
+def print_board(board, title=''):
+  print(f'\nBoard {title}:')
   print('  0 1 2 3 4 5 6 7')
   for i in range(8):
     rs = f'{board[i,:]}'

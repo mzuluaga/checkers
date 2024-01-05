@@ -49,9 +49,6 @@ def main():
 
                 if game.turn == RED:
                     game.select(row, col)
-                    board = state.extract_board(game)
-                    print('Extracted board after RED move:')
-                    state.print_board(board)
                 else:
                     _strength, _move, _ = minimax.get_best_move(game)
                     if _move is None:
@@ -61,15 +58,10 @@ def main():
                     print(f'Minimax Selected: {_strength} : (pr, pc, row, col) = {_move}')
                     game.select(pr, pc)
                     game.select(row, col)
-                    board = state.extract_board(game)
-                    print('Extracted board after WHITE move:')
-                    state.print_board(board)
                     max_moves -= 1
 
         game.update()
 
     pygame.quit()
-    print(game.winner())
-
 
 main()
