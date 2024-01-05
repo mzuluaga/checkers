@@ -4,6 +4,9 @@ from .constants import BLACK, ROWS, WHITE, SQUARE_SIZE, COLS, RED
 from .piece import Piece
 import numpy as  np
 
+R, W, RK, WK = 1, 2, 3, 4
+
+
 class Board:
     def __init__(self):
         self.create_board()
@@ -37,24 +40,36 @@ class Board:
     def get_piece(self, row, col):
         return self.board[row][col]
 
-    def create_board(self, board: np.array=None):
-        self.board = []
-        self.red_left = 12
-        self.white_left = 12
-        self.red_kings = 0
-        self.white_kings = 0
-        for row in range(ROWS):
-            self.board.append([])
-            for col in range(COLS):
-                if col % 2 == ((row + 1) % 2):
-                    if row < 3:
-                        self.board[row].append(Piece(row, col, WHITE))
-                    elif row > 4:
-                        self.board[row].append(Piece(row, col, RED))
-                    else:
-                        self.board[row].append(0)
-                else:
-                    self.board[row].append(0)
+    def new_board(self) -> np.array:
+      board = np.zeros((8,8), np.int8)
+      board[0] = [0, W, 0, WK, 0, W, 0, W]
+      board[1] = [W, 0, W, 0, W, 0, W, 0]
+      board[2] = [0, W, 0, W, 0, W, 0, W]
+      board[5] = [R, 0, R, 0, R, 0, R, 0]
+      board[6] = [0, R, 0, R, 0, R, 0, R]
+      board[7] = [R, 0, R, 0, R, 0, R, 0]
+      return board
+
+    def create_board(self):
+      b = self.new_board()
+      self.red_left = np.count_nonzero((b == R) | (b == RK))
+      self.white_left = np.count_nonzero((b == W) | (b == WK))
+      self.red_kings = np.count_nonzero((b == RK))
+      self.white_kings = np.count_nonzero((b == WK))
+      self.board = []
+      for i in range(ROWS):
+        self.board.append([])
+        for j in range(COLS):
+          piece = 0
+          if b[i, j] == R:
+            piece = Piece(i, j, RED)
+          elif b[i, j] == W:
+            piece = Piece(i, j, WHITE)
+          elif b[i, j] == RK:
+            piece = Piece(i, j, RED, king=True)
+          elif b[i, j] == WK:
+            piece = Piece(i, j, WHITE, king=True)
+          self.board[i].append(piece)
 
     def draw(self, win):
         self.draw_squares(win)

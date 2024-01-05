@@ -6,11 +6,11 @@ class Piece:
     PADDING = 10
     OUTLINE = 2
 
-    def __init__(self, row, col, color):
+    def __init__(self, row, col, color, king=False):
         self.row = row
         self.col = col
         self.color = color
-        self.king = False
+        self.king = king
         self.x = 0
         self.y = 0
         self.calc_pos()
