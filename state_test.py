@@ -29,7 +29,6 @@ class StateTest(unittest.TestCase):
     moves = state.get_piece_moves(board, 7, 7)
     self.assertEqual(moves[0][1], (6, 6))
 
-
   # def test_moves_without_jump(self):
   #   board = state.new_board()
   #   state.print_board(board)

@@ -11,13 +11,13 @@ DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 #     return INF
 #   return state.evaluate(board, WHITE)
 
-# simple utility
+# simple utility from white's perspective.
+# large positive numbers mean they are better for white.
 def utility(board):
   p6 = random.randint(0, 10) / 10000
   rc = state.count_red(board)
-  return (100 / (rc + 1)) + p6
-  # wc = state.count_white(board)
-  # return (wc - rc + 1) / (wc + rc)
+  wc = state.count_white(board)
+  return (100 / (rc + 1)) + (-90 / (wc + 1))  #+ p6
 
 def end_game(board, turn):
   for m in state.get_moves(board, turn):
