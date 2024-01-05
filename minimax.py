@@ -4,20 +4,20 @@ import random
 import state
 
 INF=1e6
-DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
+DEPTH=1   # will have DEPTH+1 levels. (has to be odd).
 
-def utility(board):
-  if state.count_red(board) == 0:
-    return INF
-  return state.evaluate(board, WHITE)
-
-# # simple utility
 # def utility(board):
-#   p6 = random.randint(0, 10) / 10000
-#   rc = state.count_red(board)
-#   return (1.0 / (rc + 1)) + p6
-#   # wc = state.count_white(board)
-#   # return (wc - rc + 1) / (wc + rc)
+#   if state.count_red(board) == 0:
+#     return INF
+#   return state.evaluate(board, WHITE)
+
+# simple utility
+def utility(board):
+  p6 = random.randint(0, 10) / 10000
+  rc = state.count_red(board)
+  return (1.0 / (rc + 1)) + p6
+  # wc = state.count_white(board)
+  # return (wc - rc + 1) / (wc + rc)
 
 def end_game(board, turn):
   for m in state.get_moves(board, turn):

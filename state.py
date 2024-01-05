@@ -37,15 +37,15 @@ def print_board(board):
     rs = f'{board[i,:]}'
     rs = rs.replace('[', '')
     rs = rs.replace(']', '')
-    # rs = rs.replace('1', 'o')
-    # rs = rs.replace('2', 'x')
-    # rs = rs.replace('3', 'O')
-    # rs = rs.replace('4', 'X')
-    rs = rs.replace('0', '\u25A1')
-    rs = rs.replace('1', '\u2659')
-    rs = rs.replace('2', '\u265F')
-    rs = rs.replace('3', '\u2655')
-    rs = rs.replace('4', '\u265B')
+    rs = rs.replace('1', 'R')
+    rs = rs.replace('2', 'W')
+    rs = rs.replace('3 ', 'RK')
+    rs = rs.replace('4 ', 'WK')
+    # rs = rs.replace('0', '\u25A1')
+    # rs = rs.replace('1', '\u2659')
+    # rs = rs.replace('2', '\u265F')
+    # rs = rs.replace('3', '\u2655')
+    # rs = rs.replace('4', '\u265B')
     rs = f'{i} {rs}'
     print(rs)
   print()
@@ -111,120 +111,132 @@ def move(board, m):
   board[r, c] = piece
   return board
 
-# def get_piece_moves(board, piece, row, col, jumped, og_row, og_col):
-#     moves = []
-#     row = row
-#     col = col
-#     color = get_color(piece)
-#     if piece == R:
-#         if check_bounds(row-1, col+1) and board[row-1][col+1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row-1, col+1)))
-#         if check_bounds(row-1, col-1) and board[row-1][col-1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row-1, col-1)))
-#         if check_bounds(row-2, col+2) and board[row-1][col+1] in [W, WK] and board[row-2][col+2] == 0:
-#             moves.append(((og_row, og_col), (row-2, col+2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row-1][col+1] = 0
-#             newboard[row-2][col+2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row-2, col+2, jumped, og_row, og_col)
-#             moves.extend(moves2)
-#         if check_bounds(row-2, col-2) and board[row-1][col-1] in [W, WK] and board[row-2][col-2] == 0:
-#             moves.append(((og_row, og_col), (row-2, col-2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row-1][col-1] = 0
-#             newboard[row-2][col-2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row-2, col-2, jumped, og_row, og_col)
-#             moves.extend(moves2)
+def get_piece_moves(board, piece, row, col, jumped, og_row, og_col):
+    moves = []
+    row = row
+    col = col
+    color = get_color(piece)
+    if piece == R:
+        if check_bounds(row-1, col+1) and board[row-1][col+1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row-1, col+1)))
+        if check_bounds(row-1, col-1) and board[row-1][col-1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row-1, col-1)))
+        if check_bounds(row-2, col+2) and board[row-1][col+1] in [W, WK] and board[row-2][col+2] == 0:
+            moves.append(((og_row, og_col), (row-2, col+2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row-1][col+1] = 0
+            newboard[row-2][col+2] = piece
+            moves2 = get_piece_moves(newboard, piece, row-2, col+2, jumped, og_row, og_col)
+            moves.extend(moves2)
+        if check_bounds(row-2, col-2) and board[row-1][col-1] in [W, WK] and board[row-2][col-2] == 0:
+            moves.append(((og_row, og_col), (row-2, col-2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row-1][col-1] = 0
+            newboard[row-2][col-2] = piece
+            moves2 = get_piece_moves(newboard, piece, row-2, col-2, jumped, og_row, og_col)
+            moves.extend(moves2)
 
-#     if piece == W:
-#         if check_bounds(row+1, col+1) and board[row+1][col+1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row+1, col+1)))
-#         if check_bounds(row+1, col-1) and board[row+1][col-1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row+1, col-1)))
-#         if check_bounds(row+2, col+2) and board[row+1][col+1] in [R or RK] and board[row+2][col+2] == 0:
-#             moves.append(((og_row, og_col), (row+2, col+2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row+1][col+1] = 0
-#             newboard[row+2][col+2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row+2, col+2, jumped, og_row, og_col)
-#             moves.extend(moves2)
-#         if check_bounds(row+2, col-2) and board[row+1][col-1] in [R or RK] and board[row+2][col-2] == 0:
-#             moves.append(((og_row, og_col), (row+2, col-2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row+1][col-1] = 0
-#             newboard[row+2][col-2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row+2, col-2, jumped, og_row, og_col)
-#             moves.extend(moves2)
+    if piece == W:
+        if check_bounds(row+1, col+1) and board[row+1][col+1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row+1, col+1)))
+        if check_bounds(row+1, col-1) and board[row+1][col-1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row+1, col-1)))
+        if check_bounds(row+2, col+2) and board[row+1][col+1] in [R, RK] and board[row+2][col+2] == 0:
+            moves.append(((og_row, og_col), (row+2, col+2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row+1][col+1] = 0
+            newboard[row+2][col+2] = piece
+            moves2 = get_piece_moves(newboard, piece, row+2, col+2, jumped, og_row, og_col)
+            moves.extend(moves2)
+        if check_bounds(row+2, col-2) and board[row+1][col-1] in [R, RK] and board[row+2][col-2] == 0:
+            moves.append(((og_row, og_col), (row+2, col-2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row+1][col-1] = 0
+            newboard[row+2][col-2] = piece
+            moves2 = get_piece_moves(newboard, piece, row+2, col-2, jumped, og_row, og_col)
+            moves.extend(moves2)
 
-#     if piece in [RK, WK]:
-#         if check_bounds(row-1, col+1) and board[row-1][col+1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row-1, col+1)))
-#         if check_bounds(row-1, col-1) and board[row-1][col-1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row-1, col-1)))
-#         if check_bounds(row+1, col+1) and board[row+1][col+1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row+1, col+1)))
-#         if check_bounds(row+1, col-1) and board[row+1][col-1] == 0 and not jumped:
-#             moves.append(((og_row, og_col), (row+1, col-1)))
-#         if check_bounds(row-2, col+2) and get_color(board[row-1][col+1]) != (color and 0) and board[row-2][col+2] == 0:
-#             moves.append(((og_row, og_col), (row-2, col+2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row-1][col+1] = 0
-#             newboard[row-2][col+2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row-2, col+2, jumped, og_row, og_col)
-#             moves.extend(moves2)
-#         if check_bounds(row-2, col-2) and get_color(board[row-1][col-1]) != (color and 0) and board[row-2][col-2] == 0:
-#             moves.append(((og_row, og_col), (row-2, col-2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row-1][col-1] = 0
-#             newboard[row-2][col-2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row-2, col-2, jumped, og_row, og_col)
-#             moves.extend(moves2)
+    if piece in [RK, WK]:
+        if check_bounds(row-1, col+1) and board[row-1][col+1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row-1, col+1)))
+        if check_bounds(row-1, col-1) and board[row-1][col-1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row-1, col-1)))
+        if check_bounds(row+1, col+1) and board[row+1][col+1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row+1, col+1)))
+        if check_bounds(row+1, col-1) and board[row+1][col-1] == 0 and not jumped:
+            moves.append(((og_row, og_col), (row+1, col-1)))
+        if check_bounds(row-2, col+2) and get_color(board[row-1][col+1]) not in [color, 0] and board[row-2][col+2] == 0:
+            moves.append(((og_row, og_col), (row-2, col+2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row-1][col+1] = 0
+            newboard[row-2][col+2] = piece
+            moves2 = get_piece_moves(newboard, piece, row-2, col+2, jumped, og_row, og_col)
+            moves.extend(moves2)
+        if check_bounds(row-2, col-2) and get_color(board[row-1][col-1]) not in [color, 0] and board[row-2][col-2] == 0:
+            moves.append(((og_row, og_col), (row-2, col-2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row-1][col-1] = 0
+            newboard[row-2][col-2] = piece
+            moves2 = get_piece_moves(newboard, piece, row-2, col-2, jumped, og_row, og_col)
+            moves.extend(moves2)
 
-#         if check_bounds(row+2, col+2) and get_color(board[row+1][col+1]) != (color and 0) and board[row+2][col+2] == 0:
-#             moves.append(((og_row, og_col), (row+2, col+2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row+1][col+1] = 0
-#             newboard[row+2][col+2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row+2, col+2, jumped, og_row, og_col)
-#             moves.extend(moves2)
-#         if check_bounds(row+2, col-2) and get_color(board[row+1][col-1]) == (color and 0) and board[row+2][col-2] == 0:
-#             moves.append(((og_row, og_col), (row+2, col-2)))
-#             jumped = True
-#             newboard = board
-#             newboard[row][col] = 0
-#             newboard[row+1][col-1] = 0
-#             newboard[row+2][col-2] = piece
-#             moves2 = get_piece_moves(newboard, piece, row+2, col-2, jumped, og_row, og_col)
-#             moves.extend(moves2)
+        if check_bounds(row+2, col+2) and get_color(board[row+1][col+1]) not in [color, 0] and board[row+2][col+2] == 0:
+            moves.append(((og_row, og_col), (row+2, col+2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row+1][col+1] = 0
+            newboard[row+2][col+2] = piece
+            moves2 = get_piece_moves(newboard, piece, row+2, col+2, jumped, og_row, og_col)
+            moves.extend(moves2)
+        if check_bounds(row+2, col-2) and get_color(board[row+1][col-1]) not in [color, 0] and board[row+2][col-2] == 0:
+            moves.append(((og_row, og_col), (row+2, col-2)))
+            jumped = True
+            newboard = board
+            newboard[row][col] = 0
+            newboard[row+1][col-1] = 0
+            newboard[row+2][col-2] = piece
+            moves2 = get_piece_moves(newboard, piece, row+2, col-2, jumped, og_row, og_col)
+            moves.extend(moves2)
 
-#     return list(set(moves))
+    return list(set(moves))
 
-def get_piece_moves(board, row, col):
-  r, c = row, col
-  walk_candidates = [(r-1, c-1), (r-1, c+1), (r+1, c-1), (r+1, c+1)]
-  jump_candidates = [(r-2, c-2), (r-2, c+2), (r+2, c-2), (r+2, c+2)]
+# def get_piece_walk_moves(board, row, col):
+#   r, c = row, col
+#   walk_candidates = [(r-1, c-1), (r-1, c+1), (r+1, c-1), (r+1, c+1)]
+#   all_candidate = []
+#   for candidate in walk_candidates:
+#     if min(candidate) < 0 or max(candidate) > 7:
+#       print(f'Filter {candidate}')
+#       continue
+#     all_candidates.append(((r, c), candidate))
+#   return all_candidates
 
-  all_candidates = []
-  for candidate in walk_candidates:
-    if min(candidate) < 0 or max(candidate) > 7:
-      print(f'Filter {candidate}')
-      continue
-    all_candidates.append(((r, c), candidate))
-  return all_candidates
+
+# def get_piece_moves(board, row, col):
+#   r, c = row, col
+#   walk_candidates = [(r-1, c-1), (r-1, c+1), (r+1, c-1), (r+1, c+1)]
+#   jump_candidates = [(r-2, c-2), (r-2, c+2), (r+2, c-2), (r+2, c+2)]
+
+#   all_candidates = []
+#   for candidate in walk_candidates:
+#     if min(candidate) < 0 or max(candidate) > 7:
+#       print(f'Filter {candidate}')
+#       continue
+#     all_candidates.append(((r, c), candidate))
+#   return all_candidates
 
 
 def get_moves(board, turn):
@@ -239,8 +251,8 @@ def get_moves(board, turn):
             if piece not in [piece_color, king_color]:
                 continue
             # Now it checks only the pieces whose turn it is
-            # valid_moves = get_piece_moves(board, piece, row, col, False, row, col)
-            valid_moves = get_piece_moves(board, row, col)
+            valid_moves = get_piece_moves(board, piece, row, col, False, row, col)
+            #valid_moves = get_piece_moves(board, row, col)
             all_moves.extend(valid_moves)
             if valid_moves:
                 piece_moves += 1
@@ -271,9 +283,9 @@ def evaluate(board, turn):
                     amount += 1
                     # Parameter 4 schaut, ob gegnerische Figuren vor einer unbeschützten Figur stehen
                     if 1 <= row <= 6 and 1 <= col <= 6:
-                        if board[row-1][col-1] == 0 and board[row+1][col+1] in [R or RK]:
+                        if board[row-1][col-1] == 0 and board[row+1][col+1] in [R, RK]:
                             p4 = p4 - 0.5
-                        if board[row-1][col+1] == 0 and board[row+1][col-1] in [R or RK]:
+                        if board[row-1][col+1] == 0 and board[row+1][col-1] in [R, RK]:
                             p4 = p4 - 0.5
                 # Parameter 5 macht, dass die Damen zu den mittleren Reihen gehen wollen, für Kontrolle
                 if piece == king_color:
