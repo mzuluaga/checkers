@@ -16,6 +16,8 @@ DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 def utility(board):
   if state.count_red(board) == 0:
     return INF
+  if state.count_white(board) == 0:
+    return -INF
   rc = state.count_red(board)
   wc = state.count_white(board)
   return (100 / (rc + 1)) + (-90 / (wc + 1))
@@ -23,24 +25,18 @@ def utility(board):
 
 def successors(board, turn):
   original_board = board.copy()
-  #state.print_board(original_board, 'succ original board:')
   valid_moves = state.get_moves(board, turn)
-  #state.print_board(original_board, 'succ after get valid_moves')
   for m in valid_moves:
    mboard = state.move(original_board.copy(), m)
-   #state.print_board(mboard, f'succ move: {m}')
    yield m, mboard
 
 
 def max_strength(board, alpha, beta, depth):
   turn = WHITE
-  #state.print_board(board, f'max original board depth={depth}')
   if depth == 0:
     return utility(board), None, None
   _s, _move, _board = -INF, None, None
   for m, mboard in successors(board, turn):
-    #state.print_board(board, f'max move orginal board')
-    #state.print_board(mboard, f'max move: {m}')
     tmp_s, _, _ = min_strength(mboard, alpha, beta, depth-1)
     if tmp_s > _s:
       _s, _move, _board = tmp_s, m, mboard
@@ -55,7 +51,6 @@ def max_strength(board, alpha, beta, depth):
 
 def min_strength(board, alpha, beta, depth):
   turn = RED
-  #state.print_board(board, f'min original board depth={depth}')
   if depth == 0:
     return utility(board), None, None
   _s, _move, _board = INF, None, None
@@ -74,6 +69,5 @@ def min_strength(board, alpha, beta, depth):
 def get_best_move(game, depth=DEPTH):
   """MinMax function."""
   board = state.extract_board(game)
-  #state.print_board(board, 'get best move board')
   _strength, _move, _board = max_strength(board, -INF, INF, depth)
   return _strength, _move, _board
