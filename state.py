@@ -218,8 +218,7 @@ def move(board, m):
 
 #     return list(set(moves))
 
-def get_piece_walk_moves(board, r, c):
-  candidates = [(r-1, c-1), (r-1, c+1), (r+1, c-1), (r+1, c+1)]
+def filter_piece_moves(board, r, c, candidates):
   valid = []
   color = board[r, c]
   for (cr, cc) in candidates:
@@ -232,6 +231,10 @@ def get_piece_walk_moves(board, r, c):
       continue
     valid.append(m)
   return valid
+
+def get_piece_walk_moves(board, r, c):
+  candidates = [(r-1, c-1), (r-1, c+1), (r+1, c-1), (r+1, c+1)]
+  return filter_piece_moves(board, r, c, candidates)
 
 
 # def get_piece_jump_moves(board, r, c):
