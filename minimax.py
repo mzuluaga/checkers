@@ -21,12 +21,6 @@ def utility(board):
   return (100 / (rc + 1)) + (-90 / (wc + 1))
 
 
-def end_game(board, turn):
-  for m in state.get_moves(board.copy(), turn):
-    return False
-  return True
-
-
 def successors(board, turn):
   original_board = board.copy()
   #state.print_board(original_board, 'succ original board:')
@@ -41,9 +35,8 @@ def successors(board, turn):
 def max_strength(board, alpha, beta, depth):
   turn = WHITE
   #state.print_board(board, f'max original board depth={depth}')
-  if depth == 0 or end_game(board, turn):
-    u = utility(board)
-    return u, None, None
+  if depth == 0:
+    return utility(board), None, None
   _s, _move, _board = -INF, None, None
   for m, mboard in successors(board, turn):
     #state.print_board(board, f'max move orginal board')
@@ -63,11 +56,8 @@ def max_strength(board, alpha, beta, depth):
 def min_strength(board, alpha, beta, depth):
   turn = RED
   #state.print_board(board, f'min original board depth={depth}')
-  if depth == 0 or end_game(board, turn):
-    u = utility(board)
-    #state.print_board(board)
-    #state.print_board(board, f'Candidate MIN utility: {u}')
-    return u, None, None
+  if depth == 0:
+    return utility(board), None, None
   _s, _move, _board = INF, None, None
   for m, mboard in successors(board, turn):
     tmp_s, _, _ = max_strength(mboard, alpha, beta, depth-1)
@@ -78,7 +68,6 @@ def min_strength(board, alpha, beta, depth):
     if _s <= alpha:
       print(f'out in min function alpha test: {_s} <= {alpha}')
       break
-  assert _move is not None
   return _s, _move, _board
 
 
