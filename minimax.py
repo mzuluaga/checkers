@@ -6,21 +6,23 @@ import state
 INF=1e6
 DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 
-# def utility(board):
-#   if state.count_red(board) == 0:
-#     return INF
-#   return state.evaluate(board, WHITE)
-
-# simple utility from white's perspective.
-# large positive numbers mean they are better for white.
 def utility(board):
   if state.count_red(board) == 0:
     return INF
   if state.count_white(board) == 0:
     return -INF
-  rc = state.count_red(board)
-  wc = state.count_white(board)
-  return (100 / (rc + 1)) + (-90 / (wc + 1))
+  return state.evaluate(board, WHITE)
+
+# # simple utility from white's perspective.
+# # large positive numbers mean they are better for white.
+# def utility(board):
+#   if state.count_red(board) == 0:
+#     return INF
+#   if state.count_white(board) == 0:
+#     return -INF
+#   rc = state.count_red(board)
+#   wc = state.count_white(board)
+#   return (100 / (rc + 1)) + (-90 / (wc + 1))
 
 
 def successors(board, turn):
