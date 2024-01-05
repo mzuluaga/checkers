@@ -2,14 +2,10 @@
 import pygame
 from .constants import BLACK, ROWS, WHITE, SQUARE_SIZE, COLS, RED
 from .piece import Piece
+import numpy as  np
 
 class Board:
     def __init__(self):
-        self.board = []                             #Diese 2d-Liste enthält später alle Spielfiguren und ihre positionen
-        self.red_left = 12
-        self.white_left = 12
-        self.red_kings = 0
-        self.white_kings = 0
         self.create_board()
         print('Board at Creation time:', self.board)
 
@@ -41,10 +37,12 @@ class Board:
     def get_piece(self, row, col):
         return self.board[row][col]
 
-    def clear_piece(self, row, col):
-        self.board[row][col] = 0
-
-    def create_board(self):
+    def create_board(self, board: np.array=None):
+        self.board = []
+        self.red_left = 12
+        self.white_left = 12
+        self.red_kings = 0
+        self.white_kings = 0
         for row in range(ROWS):
             self.board.append([])
             for col in range(COLS):
