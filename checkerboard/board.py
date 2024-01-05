@@ -50,7 +50,6 @@ class Board:
       # board[7] = [R, 0, R, 0, R, 0, R, 0]
       board[0] = [0, W, 0, W, 0, W, 0, W]
       board[6] = [0, W, 0, R, 0, R, 0, WK]
-      board[7] = [WK,0, 0, 0, 0, 0, 0, 0]
       return board
 
     def create_board(self):
