@@ -25,10 +25,12 @@ def end_game(board, turn):
   return True
 
 
-def succesors(board, turn):
+def successors(board, turn):
+  original_board = board.copy()
   valid_moves = state.get_moves(board, turn)
   for m in valid_moves:
-    yield m, state.move(board.copy(), m)
+   board = original_board.copy()
+   yield m, state.move(board, m)
 
 
 def max_strength(board, alpha, beta, depth):
@@ -39,7 +41,7 @@ def max_strength(board, alpha, beta, depth):
     state.print_board(board)
     return u, None, None
   _s, _move, _board = -INF, None, None
-  for m, new_board in succesors(board, turn):
+  for m, new_board in successors(board, turn):
     tmp_s, _, _ = min_strength(new_board, alpha, beta, depth-1)
     if _s < tmp_s:
       _s, _move, _board = tmp_s, m, new_board
@@ -59,7 +61,7 @@ def min_strength(board, alpha, beta, depth):
     state.print_board(board)
     return u, None, None
   _s, _move, _board = INF, None, None
-  for m, new_board in succesors(board, turn):
+  for m, new_board in successors(board, turn):
     tmp_s, _, _ = max_strength(new_board, alpha, beta, depth-1)
     if _s > tmp_s:
       _s, _move, _board = tmp_s, m, new_board

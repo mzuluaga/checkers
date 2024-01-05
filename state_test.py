@@ -5,7 +5,7 @@ class StateTest(unittest.TestCase):
 
   def test_moves_without_jump(self):
     board = state.new_board()
-    #state.print_board(board)
+    state.print_board(board)
     m = ((5, 2), (4, 3))
     board = state.move(board, m)
     self.assertEqual(board[5,2], 0)
