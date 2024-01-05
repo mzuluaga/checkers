@@ -4,7 +4,7 @@ import random
 import state
 
 INF=1e6
-DEPTH=1   # will have DEPTH+1 levels. (has to be odd).
+DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 
 # def utility(board):
 #   if state.count_red(board) == 0:
