@@ -15,7 +15,7 @@ DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 def utility(board):
   p6 = random.randint(0, 10) / 10000
   rc = state.count_red(board)
-  return (1.0 / (rc + 1)) + p6
+  return (100 / (rc + 1)) + p6
   # wc = state.count_white(board)
   # return (wc - rc + 1) / (wc + rc)
 
