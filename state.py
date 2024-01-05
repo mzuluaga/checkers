@@ -7,10 +7,7 @@ from checkerboard.game import Game
 import numpy as np
 
 # RED/WHITE/RED KING/WHITE KING
-R = 1
-W = 2
-RK = 3
-WK = 4
+R, W, RK, WK = 1, 2, 3, 4
 
 #
 # Board functions
@@ -37,16 +34,16 @@ def print_board(board):
     rs = f'{board[i,:]}'
     rs = rs.replace('[', '')
     rs = rs.replace(']', '')
-    rs = rs.replace('1', 'R')
-    rs = rs.replace('2', 'W')
-    rs = rs.replace('3 ', 'RK')
-    rs = rs.replace('4 ', 'WK')
-    # rs = rs.replace('0', '\u25A1')
-    # rs = rs.replace('1', '\u2659')
-    # rs = rs.replace('2', '\u265F')
-    # rs = rs.replace('3', '\u2655')
-    # rs = rs.replace('4', '\u265B')
-    rs = f'{i} {rs}'
+    # rs = rs.replace('1', 'R')
+    # rs = rs.replace('2', 'W')
+    # rs = rs.replace('3 ', 'RK')
+    # rs = rs.replace('4 ', 'WK')
+    rs = rs.replace('0', '\u25A1')
+    rs = rs.replace('1', '\u2659')
+    rs = rs.replace('2', '\u265F')
+    rs = rs.replace('3', '\u2655')
+    rs = rs.replace('4', '\u265B')
+    rs = f'{i} {rs} '
     print(rs)
   print()
 

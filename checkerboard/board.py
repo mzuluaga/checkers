@@ -42,12 +42,20 @@ class Board:
 
     def new_board(self) -> np.array:
       board = np.zeros((8,8), np.int8)
+      # board[0] = [0, W, 0, W, 0, W, 0, W]
+      # board[1] = [W, 0, W, 0, W, 0, W, 0]
+      # board[2] = [0, W, 0, W, 0, W, 0, W]
+      # board[5] = [R, 0, R, 0, R, 0, R, 0]
+      # board[6] = [0, R, 0, R, 0, R, 0, R]
+      # board[7] = [R, 0, R, 0, R, 0, R, 0]
       board[0] = [0, W, 0, W, 0, W, 0, W]
-      board[1] = [W, 0, W, 0, W, 0, W, 0]
-      board[2] = [0, W, 0, W, 0, W, 0, W]
-      board[5] = [R, 0, R, 0, R, 0, R, 0]
-      board[6] = [0, R, 0, R, 0, R, 0, R]
-      board[7] = [R, 0, R, 0, R, 0, R, 0]
+      board[6] = [0, W, 0, R, 0, R, 0, WK]
+      board[7] = [WK,0, 0, 0, 0, 0, 0, 0]
+      # Board:
+      #   0 1 2 3 4 5 6 7
+      # 0 0 W 0 W 0 W 0 W
+      # 6 0 W 0 R 0 R 0 WK
+      # 7 WK0 0 0 0 0 0 0
       return board
 
     def create_board(self):
@@ -71,7 +79,7 @@ class Board:
             piece = Piece(i, j, WHITE, king=True)
           self.board[i].append(piece)
       print(f'red_left: {self.red_left} white_left: {self.white_left}')
-      print(f'red_kings: {self.red_kings} white_kinks: {self.white_kings}')
+      print(f'red_kings: {self.red_kings} white_kings: {self.white_kings}')
 
     def draw(self, win):
         self.draw_squares(win)
