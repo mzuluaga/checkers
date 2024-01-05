@@ -70,6 +70,8 @@ class Board:
           elif b[i, j] == WK:
             piece = Piece(i, j, WHITE, king=True)
           self.board[i].append(piece)
+      print(f'red_left: {self.red_left} white_left: {self.white_left}')
+      print(f'red_kings: {self.red_kings} white_kinks: {self.white_kings}')
 
     def draw(self, win):
         self.draw_squares(win)
