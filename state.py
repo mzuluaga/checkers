@@ -237,25 +237,26 @@ def get_piece_moves(board, piece, row, col, jumped, og_row, og_col):
 
 
 def get_moves(board, turn):
-    piece_color = get_piece(turn)
-    king_color = get_king(turn)
-    original_game = board.copy()
-    all_moves = []
-    piece_moves = 0
-    for row in range(ROWS):
-        for col in range(COLS):
-            piece = board[row][col]
-            if piece not in [piece_color, king_color]:
-                continue
-            # Now it checks only the pieces whose turn it is
-            valid_moves = get_piece_moves(board, piece, row, col, False, row, col)
-            #valid_moves = get_piece_moves(board, row, col)
-            all_moves.extend(valid_moves)
-            if valid_moves:
-                piece_moves += 1
-            board = original_game.copy()
-    # print('There are', piece_moves, 'pieces that can move')
-    return all_moves
+  piece_color = get_piece(turn)
+  king_color = get_king(turn)
+  original_game = board.copy()
+  all_moves = []
+  piece_moves = 0
+  for row in range(ROWS):
+    for col in range(COLS):
+      piece = board[row][col]
+      if piece not in [piece_color, king_color]:
+        continue
+      # Now it checks only the pieces whose turn it is
+      valid_moves = get_piece_moves(board, piece, row, col, False, row, col)
+      #valid_moves = get_piece_moves(board, row, col)
+      all_moves.extend(valid_moves)
+      if valid_moves:
+        piece_moves += 1
+      board = original_game.copy()
+  #print('There are', piece_moves, 'pieces that can move')
+  board = original_game.copy()
+  return all_moves
 
 
 def evaluate(board, turn):
