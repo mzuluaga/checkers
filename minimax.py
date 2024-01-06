@@ -4,7 +4,7 @@ import random
 import state
 
 INF=1e6
-DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
+DEPTH=5   # will have DEPTH+1 levels. (has to be odd).
 
 # # simpler utility heuristic for testing.
 # # large positive numbers mean they are better for white.
@@ -46,7 +46,7 @@ def max_strength(board, alpha, beta, depth):
     alpha = max(alpha, _s)
     #print(f'alpha = {alpha} {_s} {depth}')
     if _s >= beta:
-      print(f'depth={depth} out in max function beta test: {_s} >= {beta}')
+      #print(f'depth={depth} out in max function beta test: {_s} >= {beta}')
       break
   assert _move is not None
   return _s, _move, _board
@@ -64,7 +64,7 @@ def min_strength(board, alpha, beta, depth):
     beta = min(beta, _s)
     #print(f'beta = {beta} {_s} {depth}')
     if _s <= alpha:
-      print(f'depth={depth} out in min function alpha test: {_s} <= {alpha}')
+      #print(f'depth={depth} out in min function alpha test: {_s} <= {alpha}')
       break
   return _s, _move, _board
 
@@ -72,5 +72,6 @@ def min_strength(board, alpha, beta, depth):
 def get_best_move(game, depth=DEPTH):
   """MinMax function."""
   board = state.extract_board(game)
+  state.print_board(board, 'Minimax original board')
   _strength, _move, _board = max_strength(board, -INF, INF, depth)
   return _strength, _move, _board
