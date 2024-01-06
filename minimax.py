@@ -68,7 +68,7 @@ def min_strength(board, alpha, beta, depth):
   return _strength, _move, _board
 
 
-def get_best_move(game, depth=DEPTH):
+def minimax(game, depth=DEPTH):
   """MinMax function."""
   board = state.extract_board(game)
   state.print_board(board, f'Minimax original board. depth={depth}')

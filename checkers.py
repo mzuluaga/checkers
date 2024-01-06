@@ -50,7 +50,7 @@ def main():
                 if game.turn == RED:
                     game.select(row, col)
                 else:
-                    _strength, _move, _ = minimax.get_best_move(game)
+                    _strength, _move, _ = minimax.minimax(game)
                     if _move is None:
                       run = False
                       break
