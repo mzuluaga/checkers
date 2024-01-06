@@ -23,6 +23,7 @@ def utility(board):
     return INF
   if state.count_white(board) == 0:
     return -INF
+  # TODO: return utility when no moves posible.
   return state.evaluate(board, WHITE)
 
 
@@ -30,43 +31,41 @@ def successors(board, turn):
   original_board = board.copy()
   valid_moves = state.get_moves(board, turn)
   for m in valid_moves:
-   mboard = state.move(original_board.copy(), m)
-   yield m, mboard
+   yield m, state.move(original_board.copy(), m)
 
 
 def max_strength(board, alpha, beta, depth):
   turn = WHITE
   if depth == 0:
     return utility(board), None, None
-  _s, _move, _board = -INF, None, None
+  _strength, _move, _board = -INF, None, None
   for m, mboard in successors(board, turn):
-    tmp_s, _, _ = min_strength(mboard, alpha, beta, depth-1)
-    if tmp_s > _s:
-      _s, _move, _board = tmp_s, m, mboard
-    alpha = max(alpha, _s)
-    #print(f'alpha = {alpha} {_s} {depth}')
-    if _s >= beta:
-      #print(f'depth={depth} out in max function beta test: {_s} >= {beta}')
+    _strength_tmp, _, _ = min_strength(mboard, alpha, beta, depth-1)
+    if _strength_tmp > _strength:  # update max_strength
+      _strength, _move, _board = _strength_tmp, m, mboard
+    alpha = max(alpha, _strength)
+    #print(f'alpha = {alpha} {_strength} {depth}')
+    if _strength >= beta:
+      #print(f'depth={depth} out in max function beta test: {_strength} >= {beta}')
       break
-  assert _move is not None
-  return _s, _move, _board
+  return _strength, _move, _board
 
 
 def min_strength(board, alpha, beta, depth):
   turn = RED
   if depth == 0:
     return utility(board), None, None
-  _s, _move, _board = INF, None, None
+  _strength, _move, _board = INF, None, None
   for m, mboard in successors(board, turn):
-    tmp_s, _, _ = max_strength(mboard, alpha, beta, depth-1)
-    if tmp_s < _s:
-      _s, _move, _board = tmp_s, m, mboard
-    beta = min(beta, _s)
-    #print(f'beta = {beta} {_s} {depth}')
-    if _s <= alpha:
-      #print(f'depth={depth} out in min function alpha test: {_s} <= {alpha}')
+    _strength_tmp, _, _ = max_strength(mboard, alpha, beta, depth-1)
+    if _strength_tmp < _strength: # update min_strength
+      _strength, _move, _board = _strength_tmp, m, mboard
+    beta = min(beta, _strength)
+    #print(f'beta = {beta} {_strength} {depth}')
+    if _strength <= alpha:
+      #print(f'depth={depth} out in min function alpha test: {_strength} <= {alpha}')
       break
-  return _s, _move, _board
+  return _strength, _move, _board
 
 
 def get_best_move(game, depth=DEPTH):
