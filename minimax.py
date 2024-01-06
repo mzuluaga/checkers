@@ -4,7 +4,7 @@ import random
 import state
 
 INF=1e6
-DEPTH=5   # will have DEPTH+1 levels. (has to be odd).
+DEPTH=3   # will have DEPTH+1 levels. (has to be odd).
 
 # # simpler utility heuristic for testing.
 # # large positive numbers mean they are better for white.
@@ -73,4 +73,5 @@ def minimax(game, depth=DEPTH):
   board = state.extract_board(game)
   state.print_board(board, f'Minimax original board. depth={depth}')
   _strength, _move, _board = max_strength(board, -INF, INF, depth)
+  state.print_board(_board, f'Minimax new board. depth={depth}')
   return _strength, _move, _board
