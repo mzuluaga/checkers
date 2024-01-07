@@ -132,7 +132,7 @@ class Board:
                     break
                 moves[(r, left)] = last + skipped
                 if last:
-                    row = max(r-3, 0) if step == -1 else min(r+3, ROWS)
+                    row = max(r-3, -1) if step == -1 else min(r+3, ROWS)
                     moves.update(self._traverse_left(r+step, row, step, color, left-1, skipped=last))
                     moves.update(self._traverse_right(r+step, row, step, color, left+1, skipped=last))
                 break
@@ -158,7 +158,7 @@ class Board:
                     break
                 moves[(r, right)] = last + skipped
                 if last:
-                    row = max(r-3, 0) if step == -1 else min(r+3, ROWS)
+                    row = max(r-3, -1) if step == -1 else min(r+3, ROWS)
                     moves.update(self._traverse_left(r+step, row, step, color, right-1, skipped=last))
                     moves.update(self._traverse_right(r+step, row, step, color, right+1, skipped=last))
                 break
