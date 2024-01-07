@@ -41,12 +41,20 @@ class Board:
 
     def new_board(self) -> np.array:
       board = np.zeros((8,8), np.int8)
-      board[0] = [0, W, 0, W, 0, W, 0, W]
-      board[1] = [W, 0, W, 0, W, 0, W, 0]
-      board[2] = [0, W, 0, W, 0, W, 0, W]
-      board[5] = [R, 0, R, 0, R, 0, R, 0]
-      board[6] = [0, R, 0, R, 0, R, 0, R]
-      board[7] = [R, 0, R, 0, R, 0, R, 0]
+      # board[0] = [0, W, 0, W, 0, W, 0, W]
+      # board[1] = [W, 0, W, 0, W, 0, W, 0]
+      # board[2] = [0, W, 0, W, 0, W, 0, W]
+      # board[5] = [R, 0, R, 0, R, 0, R, 0]
+      # board[6] = [0, R, 0, R, 0, R, 0, R]
+      # board[7] = [R, 0, R, 0, R, 0, R, 0]
+
+      # board[0] = [0, 0, 0, 0, 0, 0, 0, 0]
+      # board[1] = [0, 0, RK, 0, RK, 0, 0, 0]
+      # board[2] = [0, 0, 0, 0, 0, RK, 0, 0]
+      board[4] = [0, 0, 0, RK, 0, 0, 0, 0]
+      board[5] = [WK, 0, 0, 0, 0, 0, 0, 0]
+      # board[6] = [0, 0, 0, 0, 0, 0, 0, 0]
+      # board[7] = [0, 0, 0, 0, 0, 0, 0, 0]
 
       # uncomment for end-game testing.
       # board[0] = [0, W, 0, W, 0, W, 0, W]

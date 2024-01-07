@@ -88,6 +88,13 @@ def get_color(piece):
     color = 0
   return color
 
+def get_piece_text(piece):
+  return {
+      R:'R',
+      RK: 'RK',
+      W: 'W',
+      WK: 'WK'}[piece]
+
 def check_bounds(x, y):
   return 0 <= x <= 7 and 0 <= y <= 7
 
@@ -223,11 +230,12 @@ def get_moves(board, turn):
         continue
       # Now it checks only the pieces whose turn it is
       valid_moves = get_piece_moves(board, piece, row, col, False, row, col)
+      print(f'moves for {get_piece_text(piece)}: ({row, col}) : {valid_moves}')
       all_moves.extend(valid_moves)
       if valid_moves:
         piece_moves += 1
       board = original_game.copy()
-  # print('There are', piece_moves, 'pieces that can move')
+  print('There are', piece_moves, 'pieces that can move')
   board = original_game.copy()
   return all_moves
 

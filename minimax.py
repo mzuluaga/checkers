@@ -41,7 +41,7 @@ def max_strength(board, alpha, beta, depth):
   _strength, _move, _board = -INF, None, None
   for m, mboard in successors(board, turn):
     _strength_tmp, _, _ = min_strength(mboard, alpha, beta, depth-1)
-    if _strength_tmp > _strength:  # update max_strength
+    if _strength_tmp >= _strength:  # update max_strength
       _strength, _move, _board = _strength_tmp, m, mboard
     alpha = max(alpha, _strength)
     #print(f'alpha = {alpha} {_strength} {depth}')
@@ -58,7 +58,7 @@ def min_strength(board, alpha, beta, depth):
   _strength, _move, _board = INF, None, None
   for m, mboard in successors(board, turn):
     _strength_tmp, _, _ = max_strength(mboard, alpha, beta, depth-1)
-    if _strength_tmp < _strength: # update min_strength
+    if _strength_tmp <= _strength: # update min_strength
       _strength, _move, _board = _strength_tmp, m, mboard
     beta = min(beta, _strength)
     #print(f'beta = {beta} {_strength} {depth}')
