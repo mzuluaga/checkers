@@ -15,9 +15,6 @@ class Game:
         self.draw_valid_moves(self.valid_moves)
         pygame.display.update()
 
-    def winner(self):
-        return self.board.winner()
-
     def reset(self):
         self.selected = None
         self.board = Board()
